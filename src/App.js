@@ -1,24 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
+import Footer from "./components/footer/Footer";
+import Navbar from "./components/navbar/Navbar";
+import AddressForm from "./pages/address/AddressForm";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import Category from "./pages/admin/category/Category";
+import Product from "./pages/admin/product/Product";
+import UpdateProduct from "./pages/admin/product/ProductUpdate";
+import ProductDescription from "./pages/user/product/ProductDescription";
+// import CartScreen from "./pages/cart/CartScreen";
+import ViewOrders from "./pages/admin/order/ViewOrders";
+import ViewUsers from "./pages/admin/users/ViewUsers";
+import AboutUs from "./pages/constant/AboutUs";
+import Contactus from "./pages/constant/Contactus";
+import ForgotPassword from "./pages/forgetpassword/ForgetPassword";
+import HomeScreen from "./pages/homepage/HomeScreen";
+import ProductScreen from "./pages/homepage/ProductScreen";
+import Login from "./pages/login/LoginScreen";
+import Register from "./pages/register/RegisterScreen";
+import Cart from "./pages/user/cart/Cart";
+import OrderList from "./pages/user/order/OrderList";
+import Profile from "./pages/user/profile/Profile";
+import AdminRoutes from "./protected_routes/AdminRoutes";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <ToastContainer />
+      <Routes>
+        <Route path="/" element={<HomeScreen />} />
+        <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/contact" element={<Contactus />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/productdescription/:id"
+          element={<ProductDescription />}
+        />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/product" element={<ProductScreen />} />
+        <Route path="/address" element={<AddressForm />} />
+        <Route path="/orderlist" element={<OrderList />} />
+
+        <Route element={<AdminRoutes />}>
+          <Route path="/admin/category" element={<Category />} />
+          <Route path="/admin/product" element={<Product />} />
+          <Route path="/admin/orders" element={<ViewOrders />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/customers" element={<ViewUsers />} />
+          <Route path="/admin/update/:id" element={<UpdateProduct />} />
+        </Route>
+      </Routes>
+      <Routes></Routes>
+      <Footer />
+    </Router>
   );
 }
 
