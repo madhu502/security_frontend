@@ -21,7 +21,7 @@ const Navbar = () => {
           <div className="logo">
             <Link to="/">
               <img
-                src="/assets/images/logo.png"
+                src="/images/logo.png"
                 alt="Shopify Logo"
                 className="logo-icon"
                 style={{ height: "75px" }}
