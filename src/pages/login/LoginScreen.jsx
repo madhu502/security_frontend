@@ -6,62 +6,65 @@ import { loginUserApi } from "../../apis/Api";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Track loading state
 
   const navigate = useNavigate(); // Use useNavigate hook
 
   const validation = () => {
     let isValid = true;
 
-    if (email.trim() === "" || !email.includes("@")) {
-      setEmailError("Email is empty or invalid");
+    if (email.trim() === "" || !/\S+@\S+\.\S+/.test(email)) {
+      setEmailError("Please enter a valid email address");
       isValid = false;
+    } else {
+      setEmailError(""); // Clear error when input is valid
     }
+
     if (password.trim() === "") {
       setPasswordError("Password is required");
       isValid = false;
+    } else {
+      setPasswordError(""); // Clear error when input is valid
     }
+
     return isValid;
   };
+
   const handleLogin = (e) => {
     e.preventDefault();
 
-    //validation
+    // Validation
     if (!validation()) {
       return;
     }
 
-    //make a json object
-    const data = {
-      email: email,
-      password: password,
-    };
-    //Make a api request
-    loginUserApi(data).then((res) => {
-      if (res.data.success === false) {
-        toast.error(res.data.message);
-      } else {
-        toast.success(res.data.message);
-        console.log("User Data:", res.data.userData);
+    setIsLoading(true); // Set loading state to true
 
-        // Success(bool), message(text), token(text) ,user data(json object)
+    // Make API request
+    const data = { email, password };
+    loginUserApi(data)
+      .then((res) => {
+        setIsLoading(false); // Reset loading state
+        if (res.data.success === false) {
+          toast.error(res.data.message);
+        } else {
+          toast.success(res.data.message);
+          console.log("User Data:", res.data.userData);
 
-        //Setting token and user data in local storage
-        localStorage.setItem("token", res.data.token);
+          // Store token and user data in localStorage
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("user", JSON.stringify(res.data.userData));
 
-        //Setting user data
-        const convertedData = JSON.stringify(res.data.userData);
-
-        //local storage set
-        localStorage.setItem("user", convertedData);
-
-        navigate("/"); // Navigate to the homepage
-      }
-    });
-
-    // toast.success("Login button clicked!")
+          navigate("/"); // Redirect to homepage
+        }
+      })
+      .catch((error) => {
+        setIsLoading(false); // Reset loading state
+        toast.error("Something went wrong. Please try again.");
+        console.error(error);
+      });
   };
 
   return (
@@ -72,49 +75,40 @@ const Login = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-
-        // background: 'linear-gradient(to bottom, #8f6743, #fff)', // Gradient background from orange to white
         position: "relative",
-        // color: '#fff',
       }}
     >
       <div style={{ textAlign: "center" }}>
-        <h1 style={{ fontSize: "2rem", color: "#333" }}>Shopify </h1>
-       
+        <h1 style={{ fontSize: "2rem", color: "#333" }}>Shopify</h1>
       </div>
-      <div className="">
+      <div>
         <h5 className="my-3 w-100 text-center text-decoration-underline">
           Login
         </h5>
-        <form>
+        <form onSubmit={handleLogin}>
           <div style={{ marginBottom: "15px", textAlign: "left" }}>
-            <label
-              htmlFor="email"
-              style={{
-                display: "block",
-                marginBottom: "5px",
-              }}
-              className="form-label"
-            >
-              Email:{email}
+            <label htmlFor="email" className="form-label">
+              Email
             </label>
             <input
               onChange={(e) => setEmail(e.target.value)}
               type="text"
               className="form-control w-100"
               placeholder="Enter your email"
+              value={email}
             />
             {emailError && <p className="text-danger">{emailError}</p>}
           </div>
           <div style={{ marginBottom: "15px", textAlign: "left" }}>
             <label htmlFor="password" className="form-label">
-              Password:{password}
+              Password
             </label>
             <input
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               className="form-control"
               placeholder="Enter your password"
+              value={password}
             />
             {passwordError && <p className="text-danger">{passwordError}</p>}
           </div>
@@ -129,8 +123,12 @@ const Login = () => {
               Forgot Password?
             </a>
           </div>
-          <button onClick={handleLogin} className="btn btn-success mt-2 w-100">
-            LOGIN
+          <button
+            type="submit"
+            className="btn btn-success mt-2 w-100"
+            disabled={isLoading} // Disable button while loading
+          >
+            {isLoading ? "Logging in..." : "LOGIN"}
           </button>
         </form>
         <p style={{ marginTop: "10px", color: "#333" }}>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { getallOrdersApi, getSingleProduct, updateOrderApi } from '../../../apis/Api';
+import {  getAllOrdersApi, getSingleProduct, updateOrderApi } from '../../../apis/Api';
 import OrderDetailsModal from './OrderDetailModel';
 
 const ViewOrders = () => {
@@ -13,7 +13,7 @@ const ViewOrders = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const data = await getallOrdersApi();
+                const data = await getAllOrdersApi();
                 console.log('Fetched Orders:', data);
                 setOrders(data.data.orders); // Ensure orders is always an array
             } catch (err) {

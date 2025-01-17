@@ -132,7 +132,7 @@
 //       publicKey: "test_public_key_0800545e039d45368cab4d1b2fb93d01",
 //       productIdentity: "1234567890",
 //       productName: "Cart Items",
-//       productUrl: "http://example.com/cart",
+//       productUrl: "https://example.com/cart",
 //       eventHandler: {
 //         onSuccess(payload) {
 //           console.log("Khalti success payload:", payload);
@@ -233,7 +233,7 @@
 //                   <tr key={cart._id} className="border-b">
 //                     <td className="flex items-center py-4">
 //                       <img
-//                         src={`http://localhost:5500/products/${cart.productID.productImage}`}
+//                         src={`https://localhost:5500/products/${cart.productID.productImage}`}
 //                         alt={cart.productID.productName}
 //                         className="w-20 h-20"
 //                       />
@@ -494,13 +494,25 @@ const Cart = () => {
   };
 
   const handleQuantityChange = (itemId, newQuantity) => {
-    if (newQuantity < 1 || newQuantity > 5) return;
+    // Check if the new quantity is within the valid range
+    if (newQuantity < 1 || newQuantity > 5) {
+      console.error("Quantity must be between 1 and 5.");
+      return;
+    }
 
+    // Update the cart with the new quantity for the specified item
     const updatedCart = cart.map((item) =>
       item._id === itemId ? { ...item, quantity: newQuantity } : item
     );
+
+    // Update the cart state with the updated items
     setCart(updatedCart);
-    calculateCartTotal(updatedCart); // Recalculate total locally
+
+    // Recalculate the total for the cart with the updated cart data
+    calculateCartTotal(updatedCart);
+
+    // Optionally, you can also sync the updated cart with the backend (API)
+    // updateCartOnServer(updatedCart); // Uncomment if needed
   };
 
   const handleProceedToCheckout = () => {
@@ -525,7 +537,7 @@ const Cart = () => {
       publicKey: "test_public_key_0800545e039d45368cab4d1b2fb93d01",
       productIdentity: "1234567890",
       productName: "Cart Items",
-      productUrl: "http://example.com/cart",
+      productUrl: "https://example.com/cart",
       eventHandler: {
         onSuccess(payload) {
           console.log("Khalti success payload:", payload);
@@ -609,7 +621,7 @@ const Cart = () => {
                     <tr key={cart._id} className="border-b">
                       <td className="flex items-center py-4">
                         <img
-                          src={`http://localhost:5500/products/${cart.productID.productImage}`}
+                          src={`https://localhost:5500/products/${cart.productID.productImage}`}
                           alt={cart.productID.productName}
                           className="w-20 h-20"
                         />

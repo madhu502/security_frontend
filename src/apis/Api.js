@@ -1,20 +1,134 @@
-import axios from "axios";
+// import axios from "axios";
 
-// Backend API configurations
+// // Backend API configurations
+// const Api = axios.create({
+//   baseURL: "https://localhost:5500",
+//   withCredentials: true,
+//   headers: {
+//     "Content-Type": "multipart/form-data",
+//   },
+// });
+
+// const Api2 = axios.create({
+//   baseURL: "https://localhost:5000",
+//   withCredentials: true,
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// });
+
+// // Helper function to get config with authorization token
+// const getConfig = () => ({
+//   headers: {
+//     authorization: `Bearer ${localStorage.getItem("token")}`,
+//   },
+// });
+
+// // Authentication APIs
+// export const registerUserApi = (data) => Api.post("/api/user/create", data);
+// export const loginUserApi = (data) => Api.post("/api/user/login", data);
+// export const forgotPasswordApi = (data) =>
+//   Api.post("/api/user/forgot_password", data);
+// export const verifyOtpApi = (data) => Api.post("/api/user/verify_otp", data);
+
+// // User APIs
+// export const getUserData = (userId) =>
+//   Api.get(`/api/user/profile/${userId}`, getConfig());
+// export const getAllUserData = () => Api.get("/api/user/all_user", getConfig());
+// export const getUserDataById = (userId) => Api.get(`/api/user/user/${userId}`);
+// export const updateUserData = (userId, user) =>
+//   Api.put(`/api/user/update/${userId}`, user, getConfig());
+// export const delUserById = (userId) =>
+//   Api.delete(`/api/user/delete_account/${userId}`, getConfig());
+
+// // Category APIs
+// export const createCategoryApi = (data) =>
+//   Api.post("/api/category/create", data, getConfig());
+// export const getAllCategory = async () => {
+//   try {
+//     const response = await Api.get(
+//       "/api/category/get_all_category",
+//       getConfig()
+//     );
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error fetching categories:", error);
+//     throw error;
+//   }
+// };
+// export const getcaterogyById = (id) =>
+//   Api.get(`/api/category/getcaterogybyid/${id}`);
+// export const deleteCategory = (id) =>
+//   Api.delete(`/api/category/delete_category/${id}`, getConfig());
+
+// // Product APIs
+// export const createProductApi = (data) =>
+//   Api.post("/api/product/create", data, getConfig());
+// export const getAllProducts = () =>
+//   Api.get("/api/product/get_all_products", getConfig());
+// export const getProductsByCategory = (categoryId) =>
+//   axios.get(`/api/product/get_all_products?category=${categoryId}`);
+// export const getSingleProduct = (id) =>
+//   Api.get(`/api/product/get_single_product/${id}`, getConfig());
+// export const updateProduct = (id, data) =>
+//   Api.put(`/api/product/update_product/${id}`, data, getConfig());
+// export const deleteProduct = (id) =>
+//   Api.delete(`/api/product/delete_product/${id}`, getConfig());
+
+// // Cart APIs
+// export const addToCartApi = (data) =>
+//   Api.post("/api/cart/addToCart", data, getConfig());
+// export const getCartByUserIDApi = (id) =>
+//   Api.get(`/api/cart/getCartByUserID/${id}`, getConfig());
+// export const updateCartApi = (id, formData) =>
+//   Api.put(`/api/cart/updateCart/${id}`, formData, getConfig());
+// export const removeFromCartApi = (id) =>
+//   Api.delete(`/api/cart/removeFromCart/${id}`, getConfig());
+// export const updateCartStatusApi = (data) =>
+//   Api.put(`/api/cart/status`, data, getConfig());
+
+// // Order APIs
+// export const getUserOrdersApi = () => Api2.get("/api/order/user", getConfig());
+// export const getallOrdersApi = () => Api2.get("/api/order/get", getConfig());
+// export const createOrderApi = (data) =>
+//   Api2.post("/api/order/create", data, getConfig());
+// export const updateOrderApi = (id, data) =>
+//   Api.put(`/api/order/update/${id}`, data, getConfig());
+// export const updateOrderStatusApi = (id, data) =>
+//   Api.put(`/api/order/update/${id}`, data, getConfig());
+
+// // Address APIs
+// export const createAddress = (data) =>
+//   Api.post("/api/address/shipping-address", data, getConfig());
+// export const editAddress = (addressId, data) =>
+//   Api.put(
+//     `/api/address/update-shipping-address/${addressId}`,
+//     data,
+//     getConfig()
+//   );
+// export const getAddress = (id) =>
+//   Api.get(`/api/address/getaddress/${id}`, getConfig());
+// export const getShippingAddressById = (addressId) =>
+//   Api.get(`/api/address/getaddressbyaddressId/${addressId}`, getConfig());
+// export const deleteAddress = (addressId) =>
+//   Api.delete(`/api/address/deleteaddress/${addressId}`, getConfig());
+
+// // Review and Rating APIs
+// export const createReviewApi = (data) =>
+//   Api.post("/api/review/addReview", data, getConfig());
+// export const updateReviewApi = (id) =>
+//   Api.get(`/api/review/updateReview/${id}`);
+// export const getReviewsByUserIDApi = (id) =>
+//   Api.get(`/api/review/getReviewsByUserID/${id}`, getConfig());
+// export const getReviewsByProductID = (id) =>
+//   Api.get(`/api/review/getReviewsByProductID/${id}`);
+import axios from "axios";
+import { toast } from "react-toastify";
+
+// Axios Instance
 const Api = axios.create({
   baseURL: "https://localhost:5500",
   withCredentials: true,
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-});
-
-const Api2 = axios.create({
-  baseURL: "https://localhost:5500",
-  withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 // Helper function to get config with authorization token
@@ -24,41 +138,46 @@ const getConfig = () => ({
   },
 });
 
+// Error Handling Interceptor for API
+Api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Handle token expiration or unauthorized access
+      toast.error("Session expired or unauthorized. Please log in again.");
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    } else {
+      toast.error(error.message || "Something went wrong");
+    }
+    return Promise.reject(error);
+  }
+);
+
 // Authentication APIs
-export const registerUserApi = (data) =>
-  Api.post("https://localhost:5500/api/user/create", data);
+export const registerUserApi = (data) => Api.post("/api/user/create", data);
 export const loginUserApi = (data) => Api.post("/api/user/login", data);
 export const forgotPasswordApi = (data) =>
-  Api.post("https://localhost:5500/api/user/forgot_password", data);
-export const verifyOtpApi = (data) =>
-  Api.post("https://localhost:5500/api/user/verify_otp", data);
+  Api.post("/api/user/forgot_password", data);
+export const verifyOtpApi = (data) => Api.post("/api/user/verify_otp", data);
 
 // User APIs
 export const getUserData = (userId) =>
-  Api.get(`https://localhost:5500/api/user/profile/${userId}`, getConfig());
-export const getAllUserData = () =>
-  Api.get("https://localhost:5500/api/user/all_user", getConfig());
-export const getUserDataById = (userId) =>
-  Api.get(`https://localhost:5500/api/user/user/${userId}`);
+  Api.get(`/api/user/profile/${userId}`, getConfig());
+export const getAllUserData = () => Api.get("/api/user/all_user", getConfig());
+export const getUserDataById = (userId) => Api.get(`/api/user/user/${userId}`);
 export const updateUserData = (userId, user) =>
-  Api.put(
-    `https://localhost:5500/api/user/update/${userId}`,
-    user,
-    getConfig()
-  );
+  Api.put(`/api/user/update/${userId}`, user, getConfig());
 export const delUserById = (userId) =>
-  Api.delete(
-    `https://localhost:5500/api/user/delete_account/${userId}`,
-    getConfig()
-  );
+  Api.delete(`/api/user/delete_account/${userId}`, getConfig());
 
 // Category APIs
 export const createCategoryApi = (data) =>
-  Api.post("https://localhost:5500/api/category/create", data, getConfig());
+  Api.post("/api/category/create", data, getConfig());
 export const getAllCategory = async () => {
   try {
     const response = await Api.get(
-      "https://localhost:5500/api/category/get_all_category",
+      "/api/category/get_all_category",
       getConfig()
     );
     return response.data;
@@ -67,106 +186,82 @@ export const getAllCategory = async () => {
     throw error;
   }
 };
-export const getcaterogyById = (id) =>
-  Api.get(`https://localhost:5500/api/category/getcaterogybyid/${id}`);
+export const getCategoryById = (id) =>
+  Api.get(`/api/category/getcaterogybyid/${id}`);
 export const deleteCategory = (id) =>
-  Api.delete(
-    `https://localhost:5500/api/category/delete_category/${id}`,
-    getConfig()
-  );
+  Api.delete(`/api/category/delete_category/${id}`, getConfig());
 
 // Product APIs
 export const createProductApi = (data) =>
-  Api.post("https://localhost:5500/api/product/create", data, getConfig());
+  Api.post("/api/product/create", data, getConfig());
 export const getAllProducts = () =>
-  Api.get("https://localhost:5500/api/product/get_all_products", getConfig());
+  Api.get("/api/product/get_all_products", getConfig());
 export const getProductsByCategory = (categoryId) =>
-  axios.get(
-    `https://localhost:5500/api/product/get_all_products?category=${categoryId}`
-  );
+  Api.get(`/api/product/get_all_products?category=${categoryId}`, getConfig());
 export const getSingleProduct = (id) =>
-  Api.get(
-    `https://localhost:5500/api/product/get_single_product/${id}`,
-    getConfig()
-  );
+  Api.get(`/api/product/get_single_product/${id}`, getConfig());
 export const updateProduct = (id, data) =>
-  Api.put(
-    `https://localhost:5500/api/product/update_product/${id}`,
-    data,
-    getConfig()
-  );
+  Api.put(`/api/product/update_product/${id}`, data, getConfig());
 export const deleteProduct = (id) =>
-  Api.delete(
-    `https://localhost:5500/api/product/delete_product/${id}`,
-    getConfig()
-  );
+  Api.delete(`/api/product/delete_product/${id}`, getConfig());
 
 // Cart APIs
-export const addToCartApi = (data) =>
-  Api.post("https://localhost:5500/api/cart/addToCart", data, getConfig());
+export const addToCartApi = (formData) => {
+  return axios.post("https://localhost:5500/api/cart/addToCart", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
 export const getCartByUserIDApi = (id) =>
-  Api.get(`https://localhost:5500/api/cart/getCartByUserID/${id}`, getConfig());
+  Api.get(`/api/cart/getCartByUserID/${id}`, getConfig());
 export const updateCartApi = (id, formData) =>
-  Api.put(
-    `https://localhost:5500/api/cart/updateCart/${id}`,
-    formData,
-    getConfig()
-  );
+  Api.put(`/api/cart/updateCart/${id}`, formData, getConfig());
 export const removeFromCartApi = (id) =>
-  Api.delete(
-    `https://localhost:5500/api/cart/removeFromCart/${id}`,
-    getConfig()
-  );
+  Api.delete(`/api/cart/removeFromCart/${id}`, getConfig());
 export const updateCartStatusApi = (data) =>
-  Api.put(`https://localhost:5500/api/cart/status`, data, getConfig());
+  Api.put(`/api/cart/status`, data, getConfig());
 
-// Order APIs
-export const getUserOrdersApi = () =>
-  Api2.get("https://localhost:5500/api/order/user", getConfig());
-export const getallOrdersApi = () =>
-  Api2.get("https://localhost:5500/api/order/get", getConfig());
+// Order APIs (Api2)
+const Api2 = axios.create({
+  baseURL: "https://localhost:5500", // Default Base URL for Order APIs
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+export const getUserOrdersApi = () => Api2.get("/api/order/user", getConfig());
+export const getAllOrdersApi = () => Api2.get("/api/order/get", getConfig());
 export const createOrderApi = (data) =>
-  Api2.post("https://localhost:5500/api/order/create", data, getConfig());
+  Api2.post("/api/order/create", data, getConfig());
 export const updateOrderApi = (id, data) =>
-  Api.put(`https://localhost:5500/api/order/update/${id}`, data, getConfig());
+  Api.put(`/api/order/update/${id}`, data, getConfig());
 export const updateOrderStatusApi = (id, data) =>
-  Api.put(`https://localhost:5500/api/order/update/${id}`, data, getConfig());
+  Api.put(`/api/order/update/${id}`, data, getConfig());
 
 // Address APIs
 export const createAddress = (data) =>
-  Api.post(
-    "https://localhost:5500/api/address/shipping-address",
-    data,
-    getConfig()
-  );
+  Api.post("/api/address/shipping-address", data, getConfig());
 export const editAddress = (addressId, data) =>
   Api.put(
-    `https://localhost:5500/api/address/update-shipping-address/${addressId}`,
+    `/api/address/update-shipping-address/${addressId}`,
     data,
     getConfig()
   );
 export const getAddress = (id) =>
-  Api.get(`https://localhost:5500/api/address/getaddress/${id}`, getConfig());
+  Api.get(`/api/address/getaddress/${id}`, getConfig());
 export const getShippingAddressById = (addressId) =>
-  Api.get(
-    `https://localhost:5500/api/address/getaddressbyaddressId/${addressId}`,
-    getConfig()
-  );
+  Api.get(`/api/address/getaddressbyaddressId/${addressId}`, getConfig());
 export const deleteAddress = (addressId) =>
-  Api.delete(
-    `https://localhost:5500/api/address/deleteaddress/${addressId}`,
-    getConfig()
-  );
+  Api.delete(`/api/address/deleteaddress/${addressId}`, getConfig());
 
 // Review and Rating APIs
 export const createReviewApi = (data) =>
-  Api.post("https://localhost:5500/api/review/addReview", data, getConfig());
+  Api.post("/api/review/addReview", data, getConfig());
 export const updateReviewApi = (id) =>
-  Api.get(`https://localhost:5500/api/review/updateReview/${id}`);
+  Api.get(`/api/review/updateReview/${id}`);
 export const getReviewsByUserIDApi = (id) =>
-  Api.get(
-    `https://localhost:5500/api/review/getReviewsByUserID/${id}`,
-    getConfig()
-  );
+  Api.get(`/api/review/getReviewsByUserID/${id}`, getConfig());
 export const getReviewsByProductID = (id) =>
-  Api.get(`https://localhost:5500/api/review/getReviewsByProductID/${id}`);
+  Api.get(`/api/review/getReviewsByProductID/${id}`);

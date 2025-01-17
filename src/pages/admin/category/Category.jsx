@@ -189,7 +189,7 @@ const Category = () => {
                             <img
                               width={"40px"}
                               height={"40px"}
-                              src={`http://localhost:5500/category/${singleCategory.categoryImage}`}
+                              src={`https://localhost:5500/category/${singleCategory.categoryImage}`}
                               alt=''
                             />
                           </td>

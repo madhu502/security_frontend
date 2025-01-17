@@ -4,222 +4,156 @@ import { toast } from "react-toastify";
 import { registerUserApi } from "../../apis/Api";
 
 const Register = () => {
-  // Make a useState for 5 fields
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [errors, setErrors] = useState({});
 
-  // UseState for error messages
-  const [firstNameError, setFirstNameError] = useState("");
-  const [lastNameError, setLastNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const navigate = useNavigate();
 
-  const navigate = useNavigate(); // Use useNavigate hook
+  const validate = () => {
+    const newErrors = {};
 
-  // Make functions for each changing the values
-
-  const handleFirstname = (e) => {
-    setFirstName(e.target.value);
-  };
-
-  const handleLastname = (e) => {
-    setLastName(e.target.value);
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  const handlePhone = (e) => {
-    setPhone(e.target.value);
-  };
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  };
-  const handleConfirmPassword = (e) => {
-    setConfirmPassword(e.target.value);
-  };
-
-  //validation
-  var validate = () => {
-    var isValid = true;
-
-    // validate the first name
-    if (firstname.trim() === "") {
-      setFirstNameError("First name is required");
-      isValid = false;
+    if (!firstname.trim()) newErrors.firstname = "First name is required";
+    if (!lastname.trim()) newErrors.lastname = "Last name is required";
+    if (!email.trim()) newErrors.email = "Email is required";
+    if (!phone.trim()) newErrors.phone = "Phone number is required";
+    if (!password.trim()) newErrors.password = "Password is required";
+    if (!confirmPassword.trim()) {
+      newErrors.confirmPassword = "Confirm password is required";
+    } else if (confirmPassword.trim() !== password.trim()) {
+      newErrors.confirmPassword = "Passwords do not match";
     }
 
-    // validate the last name
-    if (lastname.trim() === "") {
-      setLastNameError("Last name is required");
-      isValid = false;
-    }
-
-    // validate the email
-    if (email.trim() === "") {
-      setEmailError("Email is required");
-      isValid = false;
-    }
-    // validate the phone
-    if (phone.trim() === "") {
-      setPhoneError("Phone number is required");
-      isValid = false;
-    }
-
-    // validate the password
-    if (password.trim() === "") {
-      setPasswordError("password is required");
-      isValid = false;
-    }
-
-    // validate the confirm password
-    if (confirmPassword.trim() === "") {
-      setConfirmPasswordError("Confirm password is required");
-      isValid = false;
-    }
-    if (confirmPassword.trim() !== password.trim()) {
-      setConfirmPasswordError("Password and confirm password doesnot match");
-      isValid = false;
-    }
-    return isValid;
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
-  //Submit button function
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // validate
-    var isValidated = validate();
-    if (!isValidated) {
-      return;
-    }
+    if (!validate()) return;
 
-    // sending request to the api
+    const data = { firstname, lastname, email, phone, password };
 
-    //Making json object
-    const data = {
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      phone: phone,
-      password: password,
-    };
-
-    registerUserApi(data).then((res) => {
-      // Received Data: success, message
-
-      if (res.data.success === false) {
-        toast.error(res.data.message);
-      } else {
-        toast.success(res.data.message);
-
-        navigate("/login"); // Navigate to the homepage
-      }
-    });
+    registerUserApi(data)
+      .then((res) => {
+        if (res.data.success === false) {
+          toast.error(res.data.message);
+        } else {
+          toast.success(res.data.message);
+          navigate("/login");
+        }
+      })
+      .catch(() => {
+        toast.error("An error occurred. Please try again.");
+      });
   };
 
   return (
-    <div className='container w-50 my-3 shadow'>
+    <div className="container w-50 my-3 shadow">
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <h1 style={{ fontSize: "2rem", color: "#333" }}>Shopify </h1>
-        
+        <h1 style={{ fontSize: "2rem", color: "#333" }}>Shopify</h1>
       </div>
-      <div className='w-100'>
-        <h5 className='w-100 text-decoration-underline text-center'>Sign Up</h5>
+      <div className="w-100">
+        <h5 className="w-100 text-decoration-underline text-center">Sign Up</h5>
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: "15px", textAlign: "left" }}>
-            <label htmlFor='firstName' className='form-label'>
-              First Name :{firstname}
+            <label htmlFor="firstName" className="form-label">
+              First Name:
             </label>
             <input
-              onChange={handleFirstname}
-              type='text'
-              className='form-control'
-              placeholder='Enter your first name'
+              id="firstName"
+              onChange={(e) => setFirstName(e.target.value)}
+              type="text"
+              className="form-control"
+              placeholder="Enter your first name"
             />
-            {firstNameError && <p className='text-danger'>{firstNameError}</p>}
-          </div>
-          <div style={{ marginBottom: "15px", textAlign: "left" }}>
-            <label className='form-label'>Last Name : {lastname}</label>
-            <input
-              onChange={handleLastname}
-              type='text'
-              className='form-control'
-              placeholder='Enter your last name'
-            />
-            {lastNameError && <p className='text-danger'>{lastNameError}</p>}
-          </div>
-          <div style={{ marginBottom: "15px", textAlign: "left" }}>
-            <label htmlFor='email' className='form-label'>
-              Email : {email}
-            </label>
-            <input
-              onChange={handleEmail}
-              type='text'
-              className='form-control'
-              placeholder='Enter your email'
-            />
-            {emailError && <p className='text-danger'>{emailError}</p>}
-          </div>
-          <div style={{ marginBottom: "15px", textAlign: "left" }}>
-            <label htmlFor='email' className='form-label'>
-              Phone{" "}
-            </label>
-            <input
-              onChange={handlePhone}
-              type='text'
-              className='form-control'
-              placeholder='Enter your Phone Number'
-            />
-            {phone && <p className='text-danger'>{phoneError}</p>}
-          </div>
-          <div style={{ marginBottom: "15px", textAlign: "left" }}>
-            <label htmlFor='password' className='form-label'>
-              Password :{password}
-            </label>
-            <input
-              onChange={handlePassword}
-              type='text'
-              className='form-control'
-              placeholder='Enter your password'
-            />
-            {passwordError && <p className='text-danger'>{passwordError}</p>}
-          </div>
-          <div style={{ marginBottom: "15px", textAlign: "left" }}>
-            <label htmlFor='confirmPassword' className='form-label'>
-              Confirm Password : {confirmPassword}
-            </label>
-            <input
-              onChange={handleConfirmPassword}
-              type='password'
-              className='form-control'
-              placeholder='Enter your confirm password'
-            />
-            {confirmPasswordError && (
-              <p className='text-danger'>{confirmPasswordError}</p>
+            {errors.firstname && (
+              <p className="text-danger">{errors.firstname}</p>
             )}
           </div>
-          <button onClick={handleSubmit} className='btn btn-success w-100'>
+          <div style={{ marginBottom: "15px", textAlign: "left" }}>
+            <label htmlFor="lastName" className="form-label">
+              Last Name:
+            </label>
+            <input
+              id="lastName"
+              onChange={(e) => setLastName(e.target.value)}
+              type="text"
+              className="form-control"
+              placeholder="Enter your last name"
+            />
+            {errors.lastname && (
+              <p className="text-danger">{errors.lastname}</p>
+            )}
+          </div>
+          <div style={{ marginBottom: "15px", textAlign: "left" }}>
+            <label htmlFor="email" className="form-label">
+              Email:
+            </label>
+            <input
+              id="email"
+              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              className="form-control"
+              placeholder="Enter your email"
+            />
+            {errors.email && <p className="text-danger">{errors.email}</p>}
+          </div>
+          <div style={{ marginBottom: "15px", textAlign: "left" }}>
+            <label htmlFor="phone" className="form-label">
+              Phone:
+            </label>
+            <input
+              id="phone"
+              onChange={(e) => setPhone(e.target.value)}
+              type="text"
+              className="form-control"
+              placeholder="Enter your phone number"
+            />
+            {errors.phone && <p className="text-danger">{errors.phone}</p>}
+          </div>
+          <div style={{ marginBottom: "15px", textAlign: "left" }}>
+            <label htmlFor="password" className="form-label">
+              Password:
+            </label>
+            <input
+              id="password"
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              className="form-control"
+              placeholder="Enter your password"
+            />
+            {errors.password && (
+              <p className="text-danger">{errors.password}</p>
+            )}
+          </div>
+          <div style={{ marginBottom: "15px", textAlign: "left" }}>
+            <label htmlFor="confirmPassword" className="form-label">
+              Confirm Password:
+            </label>
+            <input
+              id="confirmPassword"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              type="password"
+              className="form-control"
+              placeholder="Confirm your password"
+            />
+            {errors.confirmPassword && (
+              <p className="text-danger">{errors.confirmPassword}</p>
+            )}
+          </div>
+          <button type="submit" className="btn btn-success w-100">
             Register
           </button>
         </form>
-        <p
-          className='w-100 text-center mt-2'
-          style={{ marginTop: "10px", color: "#333" }}
-        >
+        <p className="w-100 text-center mt-2" style={{ color: "#333" }}>
           Already have an account?{" "}
-          <a
-            href='/login'
-            style={{
-              color: "#007bff",
-              textDecoration: "none",
-            }}
-          >
+          <a href="/login" style={{ color: "#007bff", textDecoration: "none" }}>
             Login
           </a>
         </p>

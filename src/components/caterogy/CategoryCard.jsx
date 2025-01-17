@@ -14,7 +14,7 @@ const CategoryCard = ({ categoryInformation, onClick }) => {
     >
       <div className='col-12 h-100 p-0 m-0 rounded'>
         <img
-          src={`http://localhost:5500/category/${categoryInformation.categoryImage}`}
+          src={`https://localhost:5500/category/${categoryInformation.categoryImage}`}
           className='card-img-top h-100 w-100 rounded object-fit-cover'
           alt={categoryInformation.categoryName}
         />
