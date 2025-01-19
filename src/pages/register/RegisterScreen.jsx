@@ -1,56 +1,100 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import zxcvbn from "zxcvbn";
 import { registerUserApi } from "../../apis/Api";
 
 const Register = () => {
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState({});
+  const [passwordStrength, setPasswordStrength] = useState(0);
+  const [showStrengthBar, setShowStrengthBar] = useState(false);
 
   const navigate = useNavigate();
 
-  const validate = () => {
-    const newErrors = {};
+  const changeFirstname = (e) => {
+    setFirstName(e.target.value);
+  };
 
-    if (!firstname.trim()) newErrors.firstname = "First name is required";
-    if (!lastname.trim()) newErrors.lastname = "Last name is required";
-    if (!email.trim()) newErrors.email = "Email is required";
-    if (!phone.trim()) newErrors.phone = "Phone number is required";
-    if (!password.trim()) newErrors.password = "Password is required";
-    if (!confirmPassword.trim()) {
-      newErrors.confirmPassword = "Confirm password is required";
-    } else if (confirmPassword.trim() !== password.trim()) {
-      newErrors.confirmPassword = "Passwords do not match";
-    }
+  const changeLastname = (e) => {
+    setLastName(e.target.value);
+  };
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const changeEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const changePassword = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+
+    // Show strength bar when user starts typing
+    setShowStrengthBar(newPassword.length > 0);
+
+    // Check password strength
+    const strength = zxcvbn(newPassword).score;
+    setPasswordStrength(strength);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!validate()) return;
+    if (passwordStrength < 2) {
+      toast.error("Password is too weak. Please use a stronger password.");
+      return;
+    }
 
-    const data = { firstname, lastname, email, phone, password };
+    const data = {
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      password: password,
+    };
 
     registerUserApi(data)
       .then((res) => {
         if (res.data.success === false) {
           toast.error(res.data.message);
         } else {
-          toast.success(res.data.message);
+          toast.success(
+            "Registration successful. Please check your email for verification."
+          );
           navigate("/login");
         }
       })
-      .catch(() => {
-        toast.error("An error occurred. Please try again.");
+      .catch((err) => {
+        toast.error("Server error");
+        console.error(err.message);
       });
+  };
+  const renderPasswordStrength = () => {
+    const strengthLabels = ["Very Weak", "Weak", "Fair", "Good", "Strong"];
+    const strengthColors = [
+      "#e74c3c",
+      "#e67e22",
+      "#f1c40f",
+      "#2ecc71",
+      "#27ae60",
+    ];
+
+    return (
+      <div className="flex items-center mt-2">
+        <div className="w-full bg-gray-300 rounded-lg h-2 mr-2">
+          <div
+            className="h-2 rounded-lg"
+            style={{
+              width: `${(passwordStrength + 1) * 20}%`,
+              backgroundColor: strengthColors[passwordStrength],
+            }}
+          ></div>
+        </div>
+        <span style={{ color: strengthColors[passwordStrength] }}>
+          {strengthLabels[passwordStrength]}
+        </span>
+      </div>
+    );
   };
 
   return (
@@ -67,14 +111,11 @@ const Register = () => {
             </label>
             <input
               id="firstName"
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={changeFirstname}
               type="text"
               className="form-control"
               placeholder="Enter your first name"
             />
-            {errors.firstname && (
-              <p className="text-danger">{errors.firstname}</p>
-            )}
           </div>
           <div style={{ marginBottom: "15px", textAlign: "left" }}>
             <label htmlFor="lastName" className="form-label">
@@ -82,14 +123,11 @@ const Register = () => {
             </label>
             <input
               id="lastName"
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={changeLastname}
               type="text"
               className="form-control"
               placeholder="Enter your last name"
             />
-            {errors.lastname && (
-              <p className="text-danger">{errors.lastname}</p>
-            )}
           </div>
           <div style={{ marginBottom: "15px", textAlign: "left" }}>
             <label htmlFor="email" className="form-label">
@@ -97,56 +135,27 @@ const Register = () => {
             </label>
             <input
               id="email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={changeEmail}
               type="text"
               className="form-control"
               placeholder="Enter your email"
             />
-            {errors.email && <p className="text-danger">{errors.email}</p>}
           </div>
-          <div style={{ marginBottom: "15px", textAlign: "left" }}>
-            <label htmlFor="phone" className="form-label">
-              Phone:
-            </label>
-            <input
-              id="phone"
-              onChange={(e) => setPhone(e.target.value)}
-              type="text"
-              className="form-control"
-              placeholder="Enter your phone number"
-            />
-            {errors.phone && <p className="text-danger">{errors.phone}</p>}
-          </div>
+
           <div style={{ marginBottom: "15px", textAlign: "left" }}>
             <label htmlFor="password" className="form-label">
               Password:
             </label>
             <input
               id="password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={changePassword}
               type="password"
               className="form-control"
               placeholder="Enter your password"
             />
-            {errors.password && (
-              <p className="text-danger">{errors.password}</p>
-            )}
           </div>
-          <div style={{ marginBottom: "15px", textAlign: "left" }}>
-            <label htmlFor="confirmPassword" className="form-label">
-              Confirm Password:
-            </label>
-            <input
-              id="confirmPassword"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              type="password"
-              className="form-control"
-              placeholder="Confirm your password"
-            />
-            {errors.confirmPassword && (
-              <p className="text-danger">{errors.confirmPassword}</p>
-            )}
-          </div>
+          {showStrengthBar && renderPasswordStrength()}
+
           <button type="submit" className="btn btn-success w-100">
             Register
           </button>

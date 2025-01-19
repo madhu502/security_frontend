@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { forgotPasswordApi, verifyOtpApi } from "../../apis/Api";
+import { forgotPasswordApi } from "../../apis/Api";
 
 const ForgotPassword = () => {
   const [phone, setPhone] = useState("");
@@ -34,17 +34,17 @@ const ForgotPassword = () => {
       newPassword: newPassword,
     };
 
-    verifyOtpApi(data)
-      .then((res) => {
-        if (res.status === 200) {
-          toast.success(res.data.message);
-        }
-      })
-      .catch((error) => {
-        if (error.response.status === 400 || 500) {
-          toast.error(error.response.data.message);
-        }
-      });
+    // verifyOtpApi(data)
+    //   .then((res) => {
+    //     if (res.status === 200) {
+    //       toast.success(res.data.message);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     if (error.response.status === 400 || 500) {
+    //       toast.error(error.response.data.message);
+    //     }
+    //   });
   };
 
   return (

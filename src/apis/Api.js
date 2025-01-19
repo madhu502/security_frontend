@@ -129,6 +129,9 @@ import { toast } from "react-toastify";
 const Api = axios.create({
   baseURL: "https://localhost:5500",
   withCredentials: true,
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
 });
 
 // Helper function to get config with authorization token
@@ -155,12 +158,21 @@ Api.interceptors.response.use(
 );
 
 // Authentication APIs
-export const registerUserApi = (data) => Api.post("/api/user/create", data);
+export const registerUserApi = (data) => Api.post("/api/user/register", data);
 export const loginUserApi = (data) => Api.post("/api/user/login", data);
-export const forgotPasswordApi = (data) =>
-  Api.post("/api/user/forgot_password", data);
-export const verifyOtpApi = (data) => Api.post("/api/user/verify_otp", data);
+// export const forgotPasswordApi = (data) =>
+//   Api.post("/api/user/forgot_password", data);
+// export const verifyOtpApi = (data) => Api.post("/api/user/verify_otp", data);
 
+export const forgotPasswordApi = (data) =>
+  Api.post("/api/users/forgotPassword", data);
+export const resetPasswordApi = (data) =>
+  Api.put(`/api/users/resetPassword/${data.token}`, {
+    password: data.password,
+  });
+
+export const VerifyEmailApi = (data) =>
+  Api.put(`/api/users/verifyEmail/${data.token}`);
 // User APIs
 export const getUserData = (userId) =>
   Api.get(`/api/user/profile/${userId}`, getConfig());
