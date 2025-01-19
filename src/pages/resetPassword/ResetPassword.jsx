@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { resetPasswordApi } from "../../apis/Api";
 
@@ -54,20 +54,60 @@ const ResetPassword = () => {
 
   return (
     <div
-      className="flex justify-center items-center min-h-screen bg-cover"
-      style={{ backgroundSize: "cover", backgroundPosition: "center" }}
+      className="reset-password-container"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "50vh",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        color: "#fff",
+        padding: "0px 25px",
+      }}
     >
       <div
-        className="bg-gray-100 p-8 rounded-lg shadow-md"
+        className="form-container"
         style={{
-          backgroundColor: "rgba(255, 255, 255, 0.5)",
-          backdropFilter: "blur(5px)",
+          backgroundColor: "rgba(255, 255, 255, 0.8)", // Semi-transparent white
+          backdropFilter: "blur(5px)", // Blur effect
+          padding: "2rem",
+          borderRadius: "8px",
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          width: "100%",
+          maxWidth: "400px",
+          textAlign: "center",
         }}
       >
-        <h2 className="text-4xl font-bold text-center mb-6">Reset Password</h2>
-        <form className="max-w-[400px] mx-auto" onSubmit={handleResetPassword}>
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-700">
+        <h2
+          className="title"
+          style={{
+            fontSize: "2rem",
+            fontWeight: "600",
+            color: "#060606",
+            marginBottom: "1.5rem",
+          }}
+        >
+          Reset Password
+        </h2>
+        <form onSubmit={handleResetPassword}>
+          <div
+            className="form-group"
+            style={{
+              marginBottom: "20px",
+              textAlign: "left",
+            }}
+          >
+            <label
+              htmlFor="password"
+              style={{
+                display: "block",
+                fontSize: "0.875rem",
+                fontWeight: "600",
+                color: "#374151",
+                marginBottom: "8px",
+              }}
+            >
               New Password
             </label>
             <input
@@ -75,12 +115,37 @@ const ResetPassword = () => {
               id="password"
               value={password}
               onChange={handlePasswordChange}
-              className="w-full rounded-lg bg-gray-200 py-2 px-4 focus:outline-none"
               required
+              placeholder="Enter new password"
+              style={{
+                width: "100%",
+                padding: "10px",
+                border: "1px solid #d1d5db",
+                borderRadius: "8px",
+                fontSize: "1rem",
+                color: "#1f2937",
+                background: "#f9f9f9",
+                transition: "border-color 0.3s",
+              }}
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="confirmPassword" className="block text-gray-700">
+          <div
+            className="form-group"
+            style={{
+              marginBottom: "20px",
+              textAlign: "left",
+            }}
+          >
+            <label
+              htmlFor="confirmPassword"
+              style={{
+                display: "block",
+                fontSize: "0.875rem",
+                fontWeight: "600",
+                color: "#374151",
+                marginBottom: "8px",
+              }}
+            >
               Confirm New Password
             </label>
             <input
@@ -88,18 +153,58 @@ const ResetPassword = () => {
               id="confirmPassword"
               value={confirmPassword}
               onChange={handleConfirmPasswordChange}
-              className="w-full rounded-lg bg-gray-200 py-2 px-4 focus:outline-none"
               required
+              placeholder="Confirm new password"
+              style={{
+                width: "100%",
+                padding: "10px",
+                border: "1px solid #d1d5db",
+                borderRadius: "8px",
+                fontSize: "1rem",
+                color: "#1f2937",
+                background: "#f9f9f9",
+                transition: "border-color 0.3s",
+              }}
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-teal-500 text-white font-bold py-2 rounded-lg shadow-lg hover:bg-teal-600 transition duration-300"
             disabled={isLoading}
+            style={{
+              width: "100%",
+              padding: "12px",
+              fontSize: "1rem",
+              fontWeight: "bold",
+              backgroundColor: "#0b6e21", // Reset password button color (green)
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+              transition: "background-color 0.3s",
+            }}
           >
             {isLoading ? "Resetting..." : "Reset Password"}
           </button>
         </form>
+        <p
+          style={{
+            marginTop: "20px",
+            color: "black",
+          }}
+        >
+          Remember your password?{" "}
+          <Link
+            to="/login"
+            style={{
+              color: "#3b82f6",
+              textDecoration: "none",
+              fontWeight: "600",
+              transition: "color 0.3s",
+            }}
+          >
+            Login here
+          </Link>
+        </p>
       </div>
     </div>
   );

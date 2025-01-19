@@ -118,7 +118,7 @@ const ForgotPassword = () => {
         >
           Forgot Password
         </h2>
-        <form onSubmit={handleForgotPassword}>
+        <form>
           <div
             className="form-group"
             style={{
@@ -158,6 +158,7 @@ const ForgotPassword = () => {
             />
           </div>
           <button
+            onClick={handleForgotPassword}
             type="submit"
             disabled={isLoading}
             style={{

@@ -166,6 +166,7 @@ export const loginUserApi = (data) => Api.post("/api/user/login", data);
 
 export const forgotPasswordApi = (data) =>
   Api.post("/api/user/forgotPassword", data);
+
 export const resetPasswordApi = (data) =>
   Api.put(`/api/user/resetPassword/${data.token}`, {
     password: data.password,
