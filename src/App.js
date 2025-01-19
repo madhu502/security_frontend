@@ -24,6 +24,8 @@ import Cart from "./pages/user/cart/Cart";
 import OrderList from "./pages/user/order/OrderList";
 import Profile from "./pages/user/profile/Profile";
 import AdminRoutes from "./protected_routes/AdminRoutes";
+import ResetPassword from "./pages/resetPassword/ResetPassword";
+import VerifyEmail from "./pages/verifyEmail/VerifyEmail";
 
 function App() {
   return (
@@ -36,6 +38,10 @@ function App() {
         <Route path="/contact" element={<Contactus />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path='/forgot-password' element={<ForgotPassword/>}/>
+        <Route path='/resetPassword/:token' element={<ResetPassword/>}/>
+        <Route path='/verify-email/:token' element={<VerifyEmail/>}/>
+        
         <Route
           path="/productdescription/:id"
           element={<ProductDescription />}
