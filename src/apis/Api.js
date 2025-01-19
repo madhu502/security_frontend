@@ -206,13 +206,8 @@ export const deleteProduct = (id) =>
   Api.delete(`/api/product/delete_product/${id}`, getConfig());
 
 // Cart APIs
-export const addToCartApi = (formData) => {
-  return axios.post("https://localhost:5500/api/cart/addToCart", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-};
+export const addToCartApi = (data) =>
+  Api.post("/api/cart/addToCart", data, getConfig());
 export const getCartByUserIDApi = (id) =>
   Api.get(`/api/cart/getCartByUserID/${id}`, getConfig());
 export const updateCartApi = (id, formData) =>

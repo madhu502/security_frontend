@@ -8,7 +8,6 @@ import "./ProductCard.css"; // Make sure to create and import this CSS file
 
 const ProductCard = ({ productInformation }) => {
   const [categoryName, setCategoryName] = useState(""); // State to hold the category name
-  const [productImageFile, setProductImageFile] = useState(null); // Track selected image file
 
   useEffect(() => {
     const fetchCategoryName = async () => {
@@ -39,11 +38,6 @@ const ProductCard = ({ productInformation }) => {
   const { id } = useParams();
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0]; // Get the selected file
-    setProductImageFile(file); // Store the file in state
-  };
-
   const handleCartButton = (e) => {
     e.preventDefault();
 
@@ -52,11 +46,15 @@ const ProductCard = ({ productInformation }) => {
     formData.append("productID", productInformation._id);
     formData.append("productPrice", productInformation.productPrice);
     formData.append("quantity", quantity);
-    formData.append("productImage", productImageFile); // Ensure you append the file
+    console.log(formData);
+    console.log(user._id);
+    console.log(productInformation._id);
+    console.log(productInformation.productPrice);
+    console.log(quantity);
 
     addToCartApi(formData)
       .then((res) => {
-        if (res.data.success) {
+        if (res.data.success === false) {
           message.success(res.data.message);
         } else {
           message.success(res.data.message);
@@ -67,6 +65,30 @@ const ProductCard = ({ productInformation }) => {
         console.log(err.message);
       });
   };
+  // const handleCartButton = async (e) => {
+  //   e.preventDefault();
+
+  //   const payload = {
+  //     userID: user._id,
+  //     productID: productInformation._id,
+  //     productPrice: productInformation.productPrice,
+  //     quantity,
+  //   };
+
+  //   console.log("Payload:", payload);
+
+  //   try {
+  //     const res = await addToCartApi(payload);
+  //     if (res.data.success) {
+  //       message.success(res.data.message);
+  //     } else {
+  //       message.error(res.data.message);
+  //     }
+  //   } catch (err) {
+  //     message.error("Server Error");
+  //     console.error("Error:", err.message);
+  //   }
+  // };
 
   return (
     <>
@@ -113,13 +135,6 @@ const ProductCard = ({ productInformation }) => {
                 NPR.{productInformation.productPrice}
               </h5>
             </div> */}
-            <input
-              type="file"
-              onChange={handleFileChange}
-              accept="image/*"
-              className="form-control mb-2"
-            />
-
             <div className="d-flex w-100 align-items-center justify-content-between">
               <div className="quantity-control d-flex flex-column">
                 <div>
