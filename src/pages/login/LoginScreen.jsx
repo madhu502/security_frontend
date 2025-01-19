@@ -3,13 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginUserApi } from "../../apis/Api";
 
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Track loading state
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const changeEmail = (e) => {
     setEmail(e.target.value);
@@ -18,8 +17,6 @@ const Login = () => {
   const changePassword = (e) => {
     setPassword(e.target.value);
   };
-
-  
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -31,42 +28,46 @@ const Login = () => {
 
     const data = {
       email: email,
-      password: password
+      password: password,
     };
 
     setIsLoading(true);
 
     loginUserApi(data)
       .then((res) => {
-        console.log('Response:', res.data); // Log the response data
+        console.log("Response:", res.data); // Log the response data
         setIsLoading(false);
         if (!res.data.success) {
           // Display lockUntil only if the account is actually locked
           if (res.data.lockUntil && new Date(res.data.lockUntil) > new Date()) {
-            toast.error(`Your account is locked until ${new Date(res.data.lockUntil).toLocaleString()}.`);
+            toast.error(
+              `Your account is locked until ${new Date(
+                res.data.lockUntil
+              ).toLocaleString()}.`
+            );
           }
-          
+
           toast.error(res.data.message);
         } else {
-          toast.success('Login successful!');
+          toast.success("Login successful!");
 
           // Set token and user data in local storage
-          localStorage.setItem('token', res.data.token);
+          localStorage.setItem("token", res.data.token);
 
           // Set user data
-          localStorage.setItem('user', JSON.stringify(res.data.userData));
+          localStorage.setItem("user", JSON.stringify(res.data.userData));
 
           // Redirect based on user role
           if (!res.data.userData.isAdmin) {
-            navigate('/home');
+            navigate("/home");
           } else {
-            navigate('/admin');
+            navigate("/admin");
           }
         }
       })
       .catch((err) => {
         setIsLoading(false);
-        console.error('Error:', err); // Log the error details
+        console.error("Error:", err); // Log the error details
         toast.error("Server Error");
       });
   };
@@ -95,26 +96,24 @@ const Login = () => {
               Email
             </label>
             <input
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={changeEmail}
               type="text"
               className="form-control w-100"
               placeholder="Enter your email"
               value={email}
             />
-           
           </div>
           <div style={{ marginBottom: "15px", textAlign: "left" }}>
             <label htmlFor="password" className="form-label">
               Password
             </label>
             <input
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={changePassword}
               type="password"
               className="form-control"
               placeholder="Enter your password"
               value={password}
             />
-          
           </div>
           <div style={{ marginBottom: "15px", textAlign: "right" }}>
             <a
