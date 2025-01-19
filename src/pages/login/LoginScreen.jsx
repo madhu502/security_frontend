@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginUserApi } from "../../apis/Api";
 
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,32 +24,50 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-   
+    if (!email || !password) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
 
-    setIsLoading(true); // Set loading state to true
+    const data = {
+      email: email,
+      password: password
+    };
 
-    // Make API request
-    const data = { email, password };
+    setIsLoading(true);
+
     loginUserApi(data)
       .then((res) => {
-        setIsLoading(false); // Reset loading state
-        if (res.data.success === false) {
+        console.log('Response:', res.data); // Log the response data
+        setIsLoading(false);
+        if (!res.data.success) {
+          // Display lockUntil only if the account is actually locked
+          if (res.data.lockUntil && new Date(res.data.lockUntil) > new Date()) {
+            toast.error(`Your account is locked until ${new Date(res.data.lockUntil).toLocaleString()}.`);
+          }
+          
           toast.error(res.data.message);
         } else {
-          toast.success(res.data.message);
-          console.log("User Data:", res.data.userData);
+          toast.success('Login successful!');
 
-          // Store token and user data in localStorage
-          localStorage.setItem("token", res.data.token);
-          localStorage.setItem("user", JSON.stringify(res.data.userData));
+          // Set token and user data in local storage
+          localStorage.setItem('token', res.data.token);
 
-          navigate("/"); // Redirect to homepage
+          // Set user data
+          localStorage.setItem('user', JSON.stringify(res.data.userData));
+
+          // Redirect based on user role
+          if (!res.data.userData.isAdmin) {
+            navigate('/home');
+          } else {
+            navigate('/admin');
+          }
         }
       })
-      .catch((error) => {
-        setIsLoading(false); // Reset loading state
-        toast.error("Something went wrong. Please try again.");
-        console.error(error);
+      .catch((err) => {
+        setIsLoading(false);
+        console.error('Error:', err); // Log the error details
+        toast.error("Server Error");
       });
   };
 
