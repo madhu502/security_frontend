@@ -6,39 +6,24 @@ import { loginUserApi } from "../../apis/Api";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Track loading state
 
-  const navigate = useNavigate(); // Use useNavigate hook
+  const navigate = useNavigate(); 
 
-  const validation = () => {
-    let isValid = true;
-
-    if (email.trim() === "" || !/\S+@\S+\.\S+/.test(email)) {
-      setEmailError("Please enter a valid email address");
-      isValid = false;
-    } else {
-      setEmailError(""); // Clear error when input is valid
-    }
-
-    if (password.trim() === "") {
-      setPasswordError("Password is required");
-      isValid = false;
-    } else {
-      setPasswordError(""); // Clear error when input is valid
-    }
-
-    return isValid;
+  const changeEmail = (e) => {
+    setEmail(e.target.value);
   };
+
+  const changePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Validation
-    if (!validation()) {
-      return;
-    }
+   
 
     setIsLoading(true); // Set loading state to true
 
@@ -97,7 +82,7 @@ const Login = () => {
               placeholder="Enter your email"
               value={email}
             />
-            {emailError && <p className="text-danger">{emailError}</p>}
+           
           </div>
           <div style={{ marginBottom: "15px", textAlign: "left" }}>
             <label htmlFor="password" className="form-label">
@@ -110,7 +95,7 @@ const Login = () => {
               placeholder="Enter your password"
               value={password}
             />
-            {passwordError && <p className="text-danger">{passwordError}</p>}
+          
           </div>
           <div style={{ marginBottom: "15px", textAlign: "right" }}>
             <a
