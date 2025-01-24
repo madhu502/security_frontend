@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginUserApi } from "../../apis/Api";
@@ -6,7 +7,8 @@ import { loginUserApi } from "../../apis/Api";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Track loading state
+  const [isLoading, setIsLoading] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState(""); // Track reCAPTCHA token
 
   const navigate = useNavigate();
 
@@ -18,6 +20,10 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
+  const handleCaptchaChange = (token) => {
+    setCaptchaToken(token); // Save the reCAPTCHA token
+  };
+
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -26,19 +32,24 @@ const Login = () => {
       return;
     }
 
+    if (!captchaToken) {
+      toast.error("Please verify the reCAPTCHA.");
+      return;
+    }
+
     const data = {
       email: email,
       password: password,
+      captchaToken: captchaToken, // Include the reCAPTCHA token in your API request
     };
 
     setIsLoading(true);
 
     loginUserApi(data)
       .then((res) => {
-        console.log("Response:", res.data); // Log the response data
+        console.log("Response:", res.data);
         setIsLoading(false);
         if (!res.data.success) {
-          // Display lockUntil only if the account is actually locked
           if (res.data.lockUntil && new Date(res.data.lockUntil) > new Date()) {
             toast.error(
               `Your account is locked until ${new Date(
@@ -46,28 +57,17 @@ const Login = () => {
               ).toLocaleString()}.`
             );
           }
-
           toast.error(res.data.message);
         } else {
           toast.success("Login successful!");
-
-          // Set token and user data in local storage
           localStorage.setItem("token", res.data.token);
-
-          // Set user data
           localStorage.setItem("user", JSON.stringify(res.data.userData));
-
-          // Redirect based on user role
-          if (!res.data.userData.isAdmin) {
-            navigate("/");
-          } else {
-            navigate("/");
-          }
+          navigate(res.data.userData.isAdmin ? "/" : "/");
         }
       })
       .catch((err) => {
         setIsLoading(false);
-        console.error("Error:", err); // Log the error details
+        console.error("Error:", err);
         toast.error("Server Error");
       });
   };
@@ -115,21 +115,16 @@ const Login = () => {
               value={password}
             />
           </div>
-          <div style={{ marginBottom: "15px", textAlign: "right" }}>
-            <a
-              href="/forgot-password"
-              style={{
-                color: "#007bff",
-                textDecoration: "none",
-              }}
-            >
-              Forgot Password?
-            </a>
+          <div style={{ marginBottom: "15px", textAlign: "center" }}>
+            <ReCAPTCHA
+              sitekey="6LdM48EqAAAAACojHbA4V3fz2HBFm32sN3umvyIC" 
+              onChange={handleCaptchaChange}
+            />
           </div>
           <button
             type="submit"
             className="btn btn-success mt-2 w-100"
-            disabled={isLoading} // Disable button while loading
+            disabled={isLoading}
           >
             {isLoading ? "Logging in..." : "LOGIN"}
           </button>
