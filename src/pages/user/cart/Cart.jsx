@@ -299,7 +299,7 @@ const Cart = () => {
                   name="paymentMethod"
                   value="Khalti"
                   checked={paymentMethod === "Khalti"}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  // onChange={(e) => setPaymentMethod(e.target.value)}
                 />
                 Khalti
               </label>
