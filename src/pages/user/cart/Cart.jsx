@@ -293,7 +293,7 @@ const Cart = () => {
             </div>
             <div className="payment-method">
               {/* <h3>Payment Method</h3> */}
-              <label>
+              {/* <label>
                 <input
                   type="radio"
                   name="paymentMethod"
@@ -302,7 +302,7 @@ const Cart = () => {
                   // onChange={(e) => setPaymentMethod(e.target.value)}
                 />
                 Khalti
-              </label>
+              </label> */}
               <label>
                 <input
                   type="radio"
