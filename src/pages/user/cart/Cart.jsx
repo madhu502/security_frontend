@@ -303,7 +303,7 @@ const Cart = () => {
                 />
                 Khalti
               </label> */}
-              <label>
+              {/* <label>
                 <input
                   type="radio"
                   name="paymentMethod"
@@ -312,7 +312,7 @@ const Cart = () => {
                   // onChange={(e) => setPaymentMethod(e.target.value)}
                 />
                 Cash on Delivery
-              </label>
+              </label> */}
             </div>
             <div className="mt-4 text-center">
               <button className="continue-btn" onClick={handleConfirmOrder}>
