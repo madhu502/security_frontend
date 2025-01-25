@@ -275,7 +275,7 @@ const Cart = () => {
       {showPopup && (
         <div className="popup-container">
           <div className="popup-content">
-            <h2>Continue to Order</h2>
+            {/* <h2>Continue to Order</h2> */}
             <div>
               <label htmlFor="address-select">Select Address:</label>
               <select
