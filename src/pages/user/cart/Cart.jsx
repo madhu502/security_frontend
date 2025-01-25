@@ -277,7 +277,7 @@ const Cart = () => {
           <div className="popup-content">
             {/* <h2>Continue to Order</h2> */}
             <div>
-              <label htmlFor="address-select">Select Address:</label>
+              {/* <label htmlFor="address-select">Select Address:</label> */}
               <select
                 id="address-select"
                 value={selectedAddress}
