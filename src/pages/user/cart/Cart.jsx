@@ -281,7 +281,7 @@ const Cart = () => {
               <select
                 id="address-select"
                 value={selectedAddress}
-                onChange={(e) => setSelectedAddress(e.target.value)}
+                // onChange={(e) => setSelectedAddress(e.target.value)}
               >
                 <option value="">Select an address</option>
                 {addresses.map((address, index) => (
