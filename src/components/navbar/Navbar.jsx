@@ -16,7 +16,10 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg border-bottom border-2 shadow">
+      <nav
+        className="navbar navbar-expand-lg border-bottom border-2 shadow"
+        style={{ color: "#fff" }} // Purple background and white text
+      >
         <div className="container-fluid">
           <div className="logo">
             <Link to="/">
@@ -30,7 +33,7 @@ const Navbar = () => {
           </div>
           <div className="logo-text">
             <Link to="/">
-              <span className="logo-text text-dark fs-4">Shopify</span>
+              <span className="logo-text fs-4">Shopify</span>
             </Link>
           </div>
           <div className="search-container">
@@ -80,7 +83,7 @@ const Navbar = () => {
               </li>
             </ul>
             <div className="search-container w-25 text-center me-5 d-flex justify-content-center align-items-center">
-              <input 
+              <input
                 type="text"
                 placeholder="Search Products"
                 className="search-input form-control w-100"
@@ -97,7 +100,7 @@ const Navbar = () => {
                     //  mt-3 mt-lg-auto w-100 text-center"
                   >
                     <button
-                      className="btn btn-outline-dark dropdown-toggle"
+                      className="btn btn-outline-black dropdown-toggle"
                       type="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"

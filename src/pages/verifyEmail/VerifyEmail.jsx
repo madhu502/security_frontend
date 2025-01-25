@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { VerifyEmailApi } from "../../apis/Api";
+import { verifyEmailApi } from "../../apis/Api";
 
 const VerifyEmail = () => {
   const { token } = useParams();
@@ -11,7 +11,7 @@ const VerifyEmail = () => {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const res = await VerifyEmailApi({ token });
+        const res = await verifyEmailApi({ token });
         if (res.data.success) {
           toast.success("Email verified successfully!");
           navigate("/login");

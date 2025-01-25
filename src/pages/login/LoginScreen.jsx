@@ -8,7 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState(""); // Track reCAPTCHA token
+  const [captchaToken, setCaptchaToken] = useState("");
 
   const navigate = useNavigate();
 
@@ -117,7 +117,7 @@ const Login = () => {
           </div>
           <div style={{ marginBottom: "15px", textAlign: "center" }}>
             <ReCAPTCHA
-              sitekey="6LdM48EqAAAAACojHbA4V3fz2HBFm32sN3umvyIC" 
+              sitekey="6LdM48EqAAAAACojHbA4V3fz2HBFm32sN3umvyIC"
               onChange={handleCaptchaChange}
             />
           </div>

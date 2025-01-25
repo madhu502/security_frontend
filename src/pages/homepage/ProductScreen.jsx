@@ -5,7 +5,7 @@ import "./Style.css";
 
 const Pagination = ({ currentPage, totalPages, paginate }) => {
   return (
-    <div className='pagination-container'>
+    <div className="pagination-container">
       <button
         onClick={() => paginate(currentPage - 1)}
         disabled={currentPage === 1}
@@ -14,12 +14,12 @@ const Pagination = ({ currentPage, totalPages, paginate }) => {
       </button>
       <span>Page</span>
       <input
-        type='number'
+        type="number"
         value={currentPage}
         onChange={(e) => paginate(Number(e.target.value))}
-        min='1'
+        min="1"
         max={totalPages}
-        className='page-input'
+        className="page-input"
       />
       <span>of {totalPages}</span>
       <button
@@ -70,22 +70,22 @@ const ProductScreen = () => {
 
   return (
     <>
-      <div className='ProductScreen container'>
+      <div className="ProductScreen container">
         <h4>All Products</h4>
         <input
-          type='text'
-          placeholder='Search products...'
+          type="text"
+          placeholder="Search products..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className='form-control mb-3'
+          className="form-control mb-3"
         />
 
-        <div className='row p-0 m-0'>
+        <div className="row p-0 m-0">
           {currentProducts.length > 0 ? (
             currentProducts.map((singleProduct, index) => (
               <div
                 key={index}
-                className='col-12 col-sm-6 col-lg-4 col-xl-3 p-0 m-0'
+                className="col-12 col-sm-6 col-lg-4 col-xl-3 p-0 m-0"
               >
                 <ProductCard
                   productInformation={singleProduct}

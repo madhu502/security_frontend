@@ -1,8 +1,16 @@
-body,
-html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+.footer {
+  /* position: fixed; Sticks the footer */
+  bottom: 0; /* Aligns the footer to the bottom */
+  left: 0;
+  width: 100%; /* Ensures the footer spans the entire width */
+  z-index: 1000; /* Ensures it stays above other elements */
+}
+
+.footer-container {
+  padding: 10px; /* Adds some padding for a better look */
+  background-color: #151617; /* Dark background for the footer */
+}
+
+.footer-copy-highlight {
+ /* Highlight text color */
 }

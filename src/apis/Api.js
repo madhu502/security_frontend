@@ -122,10 +122,11 @@
 //   Api.get(`/api/review/getReviewsByUserID/${id}`, getConfig());
 // export const getReviewsByProductID = (id) =>
 //   Api.get(`/api/review/getReviewsByProductID/${id}`);
+
 import axios from "axios";
 import { toast } from "react-toastify";
 
-// Axios Instance
+// // Axios Instance
 const Api = axios.create({
   baseURL: "https://localhost:5500",
   withCredentials: true,
@@ -158,7 +159,7 @@ Api.interceptors.response.use(
 );
 
 // Authentication APIs
-export const registerUserApi = (data) => Api.post("/api/user/register", data);
+export const createUserApi = (data) => Api.post("/api/user/register", data);
 export const loginUserApi = (data) => Api.post("/api/user/login", data);
 // export const forgotPasswordApi = (data) =>
 //   Api.post("/api/user/forgot_password", data);
@@ -172,7 +173,7 @@ export const resetPasswordApi = (data) =>
     password: data.password,
   });
 
-export const VerifyEmailApi = (data) =>
+export const verifyEmailApi = (data) =>
   Api.put(`/api/user/verifyEmail/${data.token}`);
 // User APIs
 export const getUserData = (userId) =>
@@ -273,3 +274,4 @@ export const getReviewsByUserIDApi = (id) =>
   Api.get(`/api/review/getReviewsByUserID/${id}`, getConfig());
 export const getReviewsByProductID = (id) =>
   Api.get(`/api/review/getReviewsByProductID/${id}`);
+

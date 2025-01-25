@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import zxcvbn from "zxcvbn";
-import { registerUserApi } from "../../apis/Api";
+import { createUserApi } from "../../apis/Api";
 
 const Register = () => {
   const [firstname, setFirstName] = useState("");
@@ -53,7 +53,7 @@ const Register = () => {
       password: password,
     };
 
-    registerUserApi(data)
+    createUserApi(data)
       .then((res) => {
         if (res.data.success === false) {
           toast.error(res.data.message);

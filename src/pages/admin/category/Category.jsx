@@ -102,56 +102,56 @@ const Category = () => {
 
   return (
     <>
-      <div className='w-100 h-100 p-3 full-page'>
-        <div className='row h-100'>
+      <div className="w-100 h-100 p-3 full-page">
+        <div className="row h-100">
           <SideNav />
-          <div className='col-md-9 col-lg-10'>
+          <div className="col-md-9 col-lg-10">
             {/* <div className='column'> */}
-            <div className='col-md-9 col-lg-10 d-flex justify-content-center align-items-center border col'>
-              <div className='card card-form border-0 shadow col-3'>
-                <div className='card-header text-center bg-white border-0'>
-                  <h1 className='fs-5 text-dark text-decoration-underline m-0'>
+            <div className="col-md-9 col-lg-10 d-flex justify-content-center align-items-center border col">
+              <div className="card card-form border-0 shadow col-3">
+                <div className="card-header text-center bg-white border-0">
+                  <h1 className="fs-5 text-dark text-decoration-underline m-0">
                     Create a new Category
                   </h1>
                 </div>
-                <div className='card-body'>
+                <div className="card-body">
                   <form onSubmit={handleSubmit}>
-                    <div className='mb-3'>
-                      <label htmlFor='categoryName' className='form-label'>
+                    <div className="mb-3">
+                      <label htmlFor="categoryName" className="form-label">
                         Category Name
                       </label>
                       <input
-                        type='text'
-                        className='form-control'
-                        id='categoryName'
-                        placeholder='Enter Category name'
+                        type="text"
+                        className="form-control"
+                        id="categoryName"
+                        placeholder="Enter Category name"
                         onChange={(e) => setCategoryName(e.target.value)}
                         required
                       />
                     </div>
-                    <div className='mb-3'>
+                    <div className="mb-3">
                       <label
-                        htmlFor='categoryDescription'
-                        className='form-label'
+                        htmlFor="categoryDescription"
+                        className="form-label"
                       >
                         Enter Description
                       </label>
                       <textarea
-                        className='form-control'
-                        id='categoryDescription'
-                        rows='3'
+                        className="form-control"
+                        id="categoryDescription"
+                        rows="3"
                         onChange={(e) => setCategoryDescription(e.target.value)}
                         required
                       ></textarea>
                     </div>
-                    <div className='mb-3'>
-                      <label htmlFor='categoryImage' className='form-label'>
+                    <div className="mb-3">
+                      <label htmlFor="categoryImage" className="form-label">
                         Choose Image
                       </label>
                       <input
-                        type='file'
-                        className='form-control'
-                        id='categoryImage'
+                        type="file"
+                        className="form-control"
+                        id="categoryImage"
                         onChange={handleImage}
                         required
                       />
@@ -159,26 +159,26 @@ const Category = () => {
                     {previewImage && (
                       <img
                         src={previewImage}
-                        className='img-fluid rounded object-cover mt-2'
-                        alt='Preview'
+                        className="img-fluid rounded object-cover mt-2"
+                        alt="Preview"
                       />
                     )}
-                    <div className='card-footer'>
-                      <button type='submit' className='btn btn-primary'>
+                    <div className="card-footer">
+                      <button type="submit" className="btn btn-primary">
                         Create Category
                       </button>
                     </div>
                   </form>
                 </div>
               </div>
-              <div className='col-9 h-100'>
-                <table className='table ms-2 mt-2 h-100'>
-                  <thead className='table-dark h-100'>
+              <div className="col-9 h-100">
+                <table className="table ms-2 mt-2 h-100">
+                  <thead className="table-dark h-100">
                     <tr>
-                      <th scope='col'>Category Image</th>
-                      <th scope='col'>Category Name</th>
-                      <th scope='col'>Descriptions</th>
-                      <th scope='col'>Actions</th>
+                      <th scope="col">Category Image</th>
+                      <th scope="col">Category Name</th>
+                      <th scope="col">Descriptions</th>
+                      <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -190,7 +190,7 @@ const Category = () => {
                               width={"40px"}
                               height={"40px"}
                               src={`https://localhost:5500/category/${singleCategory.categoryImage}`}
-                              alt=''
+                              alt=""
                             />
                           </td>
                           <td>{singleCategory.categoryName}</td>
@@ -199,7 +199,7 @@ const Category = () => {
                             {/* <Link to={`/admin/category/update/${singleCategory._id}`} className="btn btn-primary">Edit</Link> */}
                             <button
                               onClick={() => handleDelete(singleCategory._id)}
-                              className='btn btn-danger ms-2'
+                              className="btn btn-danger ms-2"
                             >
                               Delete
                             </button>
@@ -208,7 +208,7 @@ const Category = () => {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan='4' className='text-center'>
+                        <td colSpan="4" className="text-center">
                           No categories found.
                         </td>
                       </tr>
