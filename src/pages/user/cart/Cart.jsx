@@ -315,9 +315,9 @@ const Cart = () => {
               </label> */}
             </div>
             <div className="mt-4 text-center">
-              <button className="continue-btn" onClick={handleConfirmOrder}>
+              {/* <button className="continue-btn" onClick={handleConfirmOrder}>
                 Confirm Order
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
