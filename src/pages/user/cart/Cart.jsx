@@ -309,7 +309,7 @@ const Cart = () => {
                   name="paymentMethod"
                   value="COD"
                   checked={paymentMethod === "COD"}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  // onChange={(e) => setPaymentMethod(e.target.value)}
                 />
                 Cash on Delivery
               </label>
