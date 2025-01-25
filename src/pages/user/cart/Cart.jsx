@@ -284,11 +284,11 @@ const Cart = () => {
                 // onChange={(e) => setSelectedAddress(e.target.value)}
               >
                 <option value="">Select an address</option>
-                {addresses.map((address, index) => (
+                {/* {addresses.map((address, index) => (
                   <option key={index} value={address.address}>
                     {address.address}
                   </option>
-                ))}
+                ))} */}
               </select>
             </div>
             <div className="payment-method">
