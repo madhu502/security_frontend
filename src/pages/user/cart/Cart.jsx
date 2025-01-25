@@ -292,7 +292,7 @@ const Cart = () => {
               </select>
             </div>
             <div className="payment-method">
-              <h3>Payment Method</h3>
+              {/* <h3>Payment Method</h3> */}
               <label>
                 <input
                   type="radio"
