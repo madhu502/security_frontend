@@ -33,7 +33,7 @@ const Cart = () => {
           }
         })
         .catch((err) => {
-          console.error("Error fetching cart:", err);
+          // console.error("Error fetching cart:", err);
           toast.error("Error fetching cart.");
         });
     }
