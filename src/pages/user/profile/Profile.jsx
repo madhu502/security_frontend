@@ -6,7 +6,7 @@ import { getUserData, updateUserData } from "../../../apis/Api";
 
 const Profile = () => {
   const user = JSON.parse(localStorage.getItem("user"));
-  const id = user._id;
+  const id = user.id;
 
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");

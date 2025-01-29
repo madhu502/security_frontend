@@ -274,4 +274,3 @@ export const getReviewsByUserIDApi = (id) =>
   Api.get(`/api/review/getReviewsByUserID/${id}`, getConfig());
 export const getReviewsByProductID = (id) =>
   Api.get(`/api/review/getReviewsByProductID/${id}`);
-

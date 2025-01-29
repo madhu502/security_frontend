@@ -40,19 +40,16 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (passwordStrength < 2) {
       toast.error("Password is too weak. Please use a stronger password.");
       return;
     }
-
     const data = {
       firstname: firstname,
       lastname: lastname,
       email: email,
       password: password,
     };
-
     createUserApi(data)
       .then((res) => {
         if (res.data.success === false) {

@@ -23,8 +23,8 @@ const Cart = () => {
 
   // Fetch Cart Data
   useEffect(() => {
-    if (user && user._id) {
-      getCartByUserIDApi(user._id)
+    if (user) {
+      getCartByUserIDApi(user.id)
         .then((res) => {
           if (res.data.success) {
             setCart(res.data.cart);
@@ -40,17 +40,17 @@ const Cart = () => {
   }, [user]);
 
   // Mock Address Data
-  useEffect(() => {
-    setAddresses([
-      { address: "123 Main Street, City, Country" },
-      { address: "456 Another Road, City, Country" },
-    ]);
-  }, []);
+  // useEffect(() => {
+  //   setAddresses([
+  //     { address: "123 Main Street, City, Country" },
+  //     { address: "456 Another Road, City, Country" },
+  //   ]);
+  // }, []);
 
   // Calculate Totals
-  useEffect(() => {
-    calculateTotals();
-  }, [cart]);
+  // f(() => {
+  //   calculateTotals();
+  // }, [cart]);
 
   const calculateTotals = () => {
     let newSubtotal = 0;
