@@ -1,5 +1,3 @@
-
-const kname = "Artify";
+const kname = "Shopify";
 
 export { kname };
-
