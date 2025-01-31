@@ -2,7 +2,7 @@ import { message } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaMinus, FaPlus } from "react-icons/fa6";
-import { addToCartApi, getCategoryById,  } from "../../apis/Api";
+import { addToCartApi, getcaterogyById } from "../../apis/Api";
 
 const ProductCards = ({ productInformation }) => {
   const [error, setError] = useState(null);
@@ -24,7 +24,7 @@ const ProductCards = ({ productInformation }) => {
   useEffect(() => {
     const fetchCategoryName = async () => {
       try {
-        const categoryRes = await getCategoryById(
+        const categoryRes = await getcaterogyById(
           productInformation.productCategory
         );
         setCategoryName(categoryRes.data.categoryName); // Set the category name
@@ -69,7 +69,7 @@ const ProductCards = ({ productInformation }) => {
       </span>
       <img
         // height={"200px"}
-        src={`https://localhost:5500/products/${productInformation.productImage}`}
+        src={`http://localhost:5500/products/${productInformation.productImage}`}
         className='card-img-top h-50 w-100 object-fit-cover'
         alt={productInformation.productName}
       />
