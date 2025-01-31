@@ -236,6 +236,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import zxcvbn from "zxcvbn";
 import { registerUserApi } from "../../apis/Api";
 import { sanitizeInput } from "../../common/inputSanitizer";
 import { kname } from "../../common/utils";
@@ -255,6 +256,8 @@ const Register = () => {
   const [phoneError, setPhoneError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [passwordStrength, setPasswordStrength] = useState(0);
+  const [showStrengthBar, setShowStrengthBar] = useState(false);
 
   const navigate = useNavigate();
 
@@ -265,7 +268,17 @@ const Register = () => {
     setLastName(sanitizeInput(e.target.value, "text"));
   const handleEmail = (e) => setEmail(sanitizeInput(e.target.value, "email"));
   const handlePhone = (e) => setPhone(sanitizeInput(e.target.value, "number"));
+  const changePassword = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
 
+    // Show strength bar when user starts typing
+    setShowStrengthBar(newPassword.length > 0);
+
+    // Check password strength
+    const strength = zxcvbn(newPassword).score;
+    setPasswordStrength(strength);
+  };
   // Validate Email Format
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -389,6 +402,33 @@ const Register = () => {
       }
     });
   };
+  const renderPasswordStrength = () => {
+    const strengthLabels = ["Very Weak", "Weak", "Fair", "Good", "Strong"];
+    const strengthColors = [
+      "#e74c3c",
+      "#e67e22",
+      "#f1c40f",
+      "#2ecc71",
+      "#27ae60",
+    ];
+
+    return (
+      <div className="flex items-center mt-2">
+        <div className="w-full bg-gray-300 rounded-lg h-2 mr-2">
+          <div
+            className="h-2 rounded-lg"
+            style={{
+              width: `${(passwordStrength + 1) * 20}%`,
+              backgroundColor: strengthColors[passwordStrength],
+            }}
+          ></div>
+        </div>
+        <span style={{ color: strengthColors[passwordStrength] }}>
+          {strengthLabels[passwordStrength]}
+        </span>
+      </div>
+    );
+  };
 
   return (
     <div className="container w-50 my-3 shadow">
@@ -440,13 +480,12 @@ const Register = () => {
 
           <label className="form-label">Password</label>
           <input
-            onChange={handlePassword}
+            onChange={changePassword}
             type="password"
             className="form-control"
             placeholder="Enter your password"
           />
-          {passwordError && <p className="text-danger">{passwordError}</p>}
-
+          {showStrengthBar && renderPasswordStrength()}
           <label className="form-label">Confirm Password</label>
           <input
             onChange={handleConfirmPassword}
