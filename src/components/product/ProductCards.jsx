@@ -1,7 +1,7 @@
 import { message } from "antd";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { FaMinus, FaPlus } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 import { addToCartApi, getcaterogyById } from "../../apis/Api";
 
 const ProductCards = ({ productInformation }) => {
@@ -60,71 +60,72 @@ const ProductCards = ({ productInformation }) => {
   };
 
   return (
-    <div className='card border-0 shadow h-100 w-100'>
+    <div className="card border-0 shadow h-100 w-100">
       <span
         style={{ backgroundColor: "#a52626" }}
-        className='badge position-absolute top-0'
+        className="badge position-absolute top-0"
       >
         {categoryName}
       </span>
       <img
         // height={"200px"}
-        src={`http://localhost:5500/products/${productInformation.productImage}`}
-        className='card-img-top h-50 w-100 object-fit-cover'
+        src={`https://localhost:5500/products/${productInformation.productImage}`}
+        className="card-img-top h-50 w-100 object-fit-cover"
         alt={productInformation.productName}
       />
-      <div className='card-body'>
-        <div className='d-flex flex-column justify-content-between align-items-center'>
-          <h5 className='card-title'>{productInformation.productName}</h5>
+      <div className="card-body">
+        <div className="d-flex flex-column justify-content-between align-items-center">
+          <h5 className="card-title">{productInformation.productName}</h5>
 
-          <div className='d-flex w-100 align-items-center justify-content-between'>
-            <div className='quantity-control d-flex flex-column'>
+          <div className="d-flex w-100 align-items-center justify-content-between">
+            <div className="quantity-control d-flex flex-column">
               <div>
                 <button
                   onClick={decreaseQuantity}
-                  className='quantity-btn bg-white'
+                  className="quantity-btn bg-white"
                 >
                   <FaMinus />
                 </button>
                 <span style={{ fontSize: "0.8rem" }}>{quantity}</span>
                 <button
                   onClick={increaseQuantity}
-                  className='quantity-btn bg-white'
+                  className="quantity-btn bg-white"
                 >
                   <FaPlus />
                 </button>
               </div>
               <span
-                className='text-secondary mt-1'
+                className="text-secondary mt-1"
                 style={{ fontSize: "0.8rem" }}
               >
                 Quantity
               </span>
             </div>
-            <div className='d-flex flex-column justify-content-center align-items-center'>
-              <h5 className='card-title text-success'>
+            <div className="d-flex flex-column justify-content-center align-items-center">
+              <h5 className="card-title text-success">
                 NPR {productInformation.productPrice}
               </h5>
-              <span className='text-secondary' style={{ fontSize: "0.8rem" }}>
+              <span className="text-secondary" style={{ fontSize: "0.8rem" }}>
                 Price
               </span>
             </div>
           </div>
         </div>
-        <p className='text-truncate'>{productInformation.productDescription}</p>
+        <p className="text-truncate">{productInformation.productDescription}</p>
 
-        {error && <div className='alert alert-danger mt-2'>{error}</div>}
+        {error && <div className="alert alert-danger mt-2">{error}</div>}
 
-        <div className='d-flex justify-content-between align-items-center '>
+        <div className="d-flex justify-content-between align-items-center ">
           <Link
             to={`/productdescription/${productInformation._id}`}
-            className='btn btn-sm btn-outline-danger m-0 w-100'
+            className="btn btn-sm btn-outline-danger m-0 w-100"
           >
             View Product
           </Link>
           <button
             onClick={(e) => handleCartButton(e)}
-            className='btn btn-sm btn-outline-warning w-100'
+            className="btn btn-sm btn-outline-warning w-100"
+            style={{ backgroundColor: "#024b60", color: "white" }}
           >
             Add to Cart
           </button>

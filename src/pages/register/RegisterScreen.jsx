@@ -259,8 +259,10 @@ const Register = () => {
   const navigate = useNavigate();
 
   // Input Handlers
-  const handleFirstname = (e) => setFirstName(sanitizeInput(e.target.value, "text"));
-  const handleLastname = (e) => setLastName(sanitizeInput(e.target.value, "text"));
+  const handleFirstname = (e) =>
+    setFirstName(sanitizeInput(e.target.value, "text"));
+  const handleLastname = (e) =>
+    setLastName(sanitizeInput(e.target.value, "text"));
   const handleEmail = (e) => setEmail(sanitizeInput(e.target.value, "email"));
   const handlePhone = (e) => setPhone(sanitizeInput(e.target.value, "number"));
 
@@ -272,11 +274,16 @@ const Register = () => {
 
   // Password Strength Check
   const validatePasswordStrength = (password) => {
-    if (password.length < 8) return "Password must be at least 8 characters long";
-    if (!/[A-Z]/.test(password)) return "Password must contain at least one uppercase letter";
-    if (!/[a-z]/.test(password)) return "Password must contain at least one lowercase letter";
-    if (!/[0-9]/.test(password)) return "Password must contain at least one number";
-    if (!/[@$!%*?&]/.test(password)) return "Password must contain at least one special character (@, $, !, %, *, ?, &)";
+    if (password.length < 8)
+      return "Password must be at least 8 characters long";
+    if (!/[A-Z]/.test(password))
+      return "Password must contain at least one uppercase letter";
+    if (!/[a-z]/.test(password))
+      return "Password must contain at least one lowercase letter";
+    if (!/[0-9]/.test(password))
+      return "Password must contain at least one number";
+    if (!/[@$!%*?&]/.test(password))
+      return "Password must contain at least one special character (@, $, !, %, *, ?, &)";
     return "strong";
   };
 
@@ -384,46 +391,87 @@ const Register = () => {
   };
 
   return (
-    <div className='container w-50 my-3 shadow'>
+    <div className="container w-50 my-3 shadow">
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
         <h1 style={{ fontSize: "2rem", color: "#333" }}>{kname} </h1>
         <p style={{ color: "#333" }}>
-          Where you can find all the amazing Pictures and paintings{" "}
+          Widgets Made Simple, Shopping Made Smarter!{" "}
         </p>
       </div>
-      <div className='w-100'>
-        <h5 className='w-100 text-decoration-underline text-center'>Sign Up</h5>
+      <div className="w-100">
+        <h5 className="w-100 text-decoration-underline text-center">Sign Up</h5>
         <form onSubmit={handleSubmit}>
-          <label className='form-label'>First Name:</label>
-          <input onChange={handleFirstname} type='text' className='form-control' placeholder='Enter your first name' />
-          {firstNameError && <p className='text-danger'>{firstNameError}</p>}
+          <label className="form-label">First Name</label>
+          <input
+            onChange={handleFirstname}
+            type="text"
+            className="form-control"
+            placeholder="Enter your first name"
+          />
+          {firstNameError && <p className="text-danger">{firstNameError}</p>}
 
-          <label className='form-label'>Last Name:</label>
-          <input onChange={handleLastname} type='text' className='form-control' placeholder='Enter your last name' />
-          {lastNameError && <p className='text-danger'>{lastNameError}</p>}
+          <label className="form-label">Last Name</label>
+          <input
+            onChange={handleLastname}
+            type="text"
+            className="form-control"
+            placeholder="Enter your last name"
+          />
+          {lastNameError && <p className="text-danger">{lastNameError}</p>}
 
-          <label className='form-label'>Email:</label>
-          <input onChange={handleEmail} type='email' className='form-control' placeholder='Enter your email' required />
-          {emailError && <p className='text-danger'>{emailError}</p>}
+          <label className="form-label">Email</label>
+          <input
+            onChange={handleEmail}
+            type="email"
+            className="form-control"
+            placeholder="Enter your email"
+            required
+          />
+          {emailError && <p className="text-danger">{emailError}</p>}
 
-          <label className='form-label'>Phone:</label>
-          <input onChange={handlePhone} type='text' className='form-control' placeholder='Enter your Phone Number' />
-          {phoneError && <p className='text-danger'>{phoneError}</p>}
+          <label className="form-label">Phone</label>
+          <input
+            onChange={handlePhone}
+            type="text"
+            className="form-control"
+            placeholder="Enter your Phone Number"
+          />
+          {phoneError && <p className="text-danger">{phoneError}</p>}
 
-          <label className='form-label'>Password:</label>
-          <input onChange={handlePassword} type='password' className='form-control' placeholder='Enter your password' />
-          {passwordError && <p className='text-danger'>{passwordError}</p>}
+          <label className="form-label">Password</label>
+          <input
+            onChange={handlePassword}
+            type="password"
+            className="form-control"
+            placeholder="Enter your password"
+          />
+          {passwordError && <p className="text-danger">{passwordError}</p>}
 
-          <label className='form-label'>Confirm Password:</label>
-          <input onChange={handleConfirmPassword} type='password' className='form-control' placeholder='Confirm password' />
-          {confirmPasswordError && <p className='text-danger'>{confirmPasswordError}</p>}
+          <label className="form-label">Confirm Password</label>
+          <input
+            onChange={handleConfirmPassword}
+            type="password"
+            className="form-control"
+            placeholder="Confirm password"
+          />
+          {confirmPasswordError && (
+            <p className="text-danger">{confirmPasswordError}</p>
+          )}
 
-          <button className='btn btn-success w-100' type="submit">Register</button>
+          <button
+            className="btn btn-success w-100"
+            style={{ backgroundColor: "#024b60" }}
+            type="submit"
+          >
+            Register
+          </button>
         </form>
 
-        <p className='w-100 text-center mt-2'>
+        <p className="w-100 text-center mt-2">
           Already have an account?{" "}
-          <a href='/login' style={{ color: "#007bff", textDecoration: "none" }}>Login</a>
+          <a href="/login" style={{ color: "#024b60", textDecoration: "none" }}>
+            Login
+          </a>
         </p>
       </div>
     </div>

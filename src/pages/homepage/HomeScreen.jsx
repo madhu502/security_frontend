@@ -42,29 +42,42 @@ const Homepage = () => {
 
   return (
     <>
-      <div className='co'>
-        <div id='carouselExampleCaptions' className='carousel slide'>
+      <div
+        className="co"
+        style={{
+          backgroundImage: "url('/assets/images/bg.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          minHeight: "100vh", // Ensure the background covers the full viewport height
+        }}
+      >
+        <div id="carouselExampleCaptions" className="carousel slide">
           {/* Carousel code remains the same */}
         </div>
-        <h2 className='container mt-1'>Available Categories</h2>
-        <div className='row container'>
+        <h2 className="container mt-1" style={{ color: "white" }}>
+          Available Categories
+        </h2>
+        <div className="row container">
           {categories.map((singleCategory) => (
             <div
-              className='col-6 col-sm-4 col-lg-3 col-xl-2 my-2'
+              className="col-6 col-sm-4 col-lg-3 col-xl-2 my-2"
               key={singleCategory.id}
             >
               <CategoryCard
                 categoryInformation={singleCategory}
-                onClick={() => handleCategoryClick(singleCategory.id)} // Handle click
+                onClick={() => handleCategoryClick(singleCategory.id)}
               />
             </div>
           ))}
         </div>
-        <div className='row container'>
-          <h2 className='my-2'>Available Products</h2>
+        <div className="row container">
+          <h2 className="my-2" style={{ color: "white" }}>
+            Available Products
+          </h2>
           {filteredProducts.map((singleProduct) => (
             <div
-              className='col-12 col-sm-6 col-lg-4 col-xl-3 h-100'
+              className="col-12 col-sm-6 col-lg-4 col-xl-3 h-100"
               key={singleProduct.id}
             >
               <ProductCards productInformation={singleProduct} />

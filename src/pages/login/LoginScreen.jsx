@@ -30,7 +30,7 @@ const Login = () => {
     }
     if (!captchaToken) {
       toast.error("Please complete the reCAPTCHA verification");
-      isValid = false
+      isValid = false;
     }
     return isValid;
   };
@@ -75,7 +75,7 @@ const Login = () => {
 
   return (
     <div
-      className='shadow w-25 bg-light container mt-5'
+      className="shadow w-25 bg-light container mt-5"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -90,44 +90,44 @@ const Login = () => {
       <div style={{ textAlign: "center" }}>
         <h1 style={{ fontSize: "2rem", color: "#333" }}>{kname} </h1>
         <p style={{ color: "#333" }}>
-          Where you can find all the amazing Pictures and painting{" "}
+          Widgets Made Simple, Shopping Made Smarter!{" "}
         </p>
       </div>
-      <div className=''>
-        <h5 className='my-3 w-100 text-center text-decoration-underline'>
+      <div className="">
+        <h5 className="my-3 w-100 text-center text-decoration-underline">
           Login
         </h5>
         <form>
           <div style={{ marginBottom: "15px", textAlign: "left" }}>
             <label
-              htmlFor='email'
+              htmlFor="email"
               style={{
                 display: "block",
                 marginBottom: "5px",
               }}
-              className='form-label'
+              className="form-label"
             >
-              Email:{email}
+              Email
             </label>
             <input
               onChange={(e) => setEmail(e.target.value)}
-              type='text'
-              className='form-control w-100'
-              placeholder='Enter your email'
+              type="text"
+              className="form-control w-100"
+              placeholder="Enter your email"
             />
-            {emailError && <p className='text-danger'>{emailError}</p>}
+            {emailError && <p className="text-danger">{emailError}</p>}
           </div>
           <div style={{ marginBottom: "15px", textAlign: "left" }}>
-            <label htmlFor='password' className='form-label'>
-              Password:{password}
+            <label htmlFor="password" className="form-label">
+              Password
             </label>
             <input
               onChange={(e) => setPassword(e.target.value)}
-              type='password'
-              className='form-control'
-              placeholder='Enter your password'
+              type="password"
+              className="form-control"
+              placeholder="Enter your password"
             />
-            {passwordError && <p className='text-danger'>{passwordError}</p>}
+            {passwordError && <p className="text-danger">{passwordError}</p>}
           </div>
           <div style={{ marginBottom: "15px", textAlign: "center" }}>
             <ReCAPTCHA
@@ -137,25 +137,29 @@ const Login = () => {
           </div>
           <div style={{ marginBottom: "15px", textAlign: "right" }}>
             <a
-              href='/forgot-password'
+              href="/forgot-password"
               style={{
-                color: "#007bff",
+                color: "#024b60",
                 textDecoration: "none",
               }}
             >
               Forgot Password?
             </a>
           </div>
-          <button onClick={handleLogin} className='btn btn-success mt-2 w-100'>
+          <button
+            onClick={handleLogin}
+            className="btn btn-success mt-2 w-100"
+            style={{ backgroundColor: "#024b60" }}
+          >
             LOGIN
           </button>
         </form>
         <p style={{ marginTop: "10px", color: "#333" }}>
           Don't have an account?{" "}
           <a
-            href='/register'
+            href="/register"
             style={{
-              color: "#007bff",
+              color: "#024b60",
               textDecoration: "none",
             }}
           >

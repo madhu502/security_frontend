@@ -75,7 +75,7 @@
 //         } else {
 //           toast.error("Something went wrong!");
 //         }
-//       } 
+//       }
 //       else {
 //         toast.error("Something went wrong!");
 //       }
@@ -266,7 +266,12 @@ const Category = () => {
   const [previewImage, setPreviewImage] = useState("");
 
   // Allowed image MIME types
-  const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+  const ALLOWED_IMAGE_TYPES = [
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "image/webp",
+  ];
 
   const handleImage = (event) => {
     const file = event.target.files[0];
@@ -274,14 +279,18 @@ const Category = () => {
     if (file) {
       // Validate file type
       if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
-        toast.error("Invalid file type! Please upload an image (JPEG, PNG, GIF, WEBP).");
+        toast.error(
+          "Invalid file type! Please upload an image (JPEG, PNG, GIF, WEBP)."
+        );
         return;
       }
 
       // Validate file size (max 2MB)
       const maxSize = 2 * 1024 * 1024; // 2MB
       if (file.size > maxSize) {
-        toast.error("File size too large! Please upload an image smaller than 2MB.");
+        toast.error(
+          "File size too large! Please upload an image smaller than 2MB."
+        );
         return;
       }
 
@@ -334,46 +343,55 @@ const Category = () => {
 
   return (
     <>
-      <div className='w-100 h-100 p-3 full-page'>
-        <div className='row h-100'>
+      <div className="w-100 h-100 p-3 full-page">
+        <div className="row h-100">
           <SideNav />
-          <div className='col-md-9 col-lg-10'>
-            <div className='col-md-9 col-lg-10 d-flex justify-content-center align-items-center border col'>
-              <div className='card card-form border-0 shadow col-3'>
-                <div className='card-header text-center bg-white border-0'>
-                  <h1 className='fs-5 text-dark text-decoration-underline m-0'>
+          <div className="col-md-9 col-lg-10">
+            <div className="col-md-9 col-lg-10 d-flex justify-content-center align-items-center border col">
+              <div className="card card-form border-0 shadow col-3">
+                <div className="card-header text-center bg-white border-0">
+                  <h1 className="fs-5 text-dark text-decoration-underline m-0">
                     Create a new Category
                   </h1>
                 </div>
-                <div className='card-body'>
+                <div className="card-body">
                   <form onSubmit={handleSubmit}>
-                    <div className='mb-3'>
-                      <label htmlFor='categoryName' className='form-label'>Category Name</label>
+                    <div className="mb-3">
+                      <label htmlFor="categoryName" className="form-label">
+                        Category Name
+                      </label>
                       <input
-                        type='text'
-                        className='form-control'
-                        id='categoryName'
-                        placeholder='Enter Category name'
+                        type="text"
+                        className="form-control"
+                        id="categoryName"
+                        placeholder="Enter Category name"
                         onChange={(e) => setCategoryName(e.target.value)}
                         required
                       />
                     </div>
-                    <div className='mb-3'>
-                      <label htmlFor='categoryDescription' className='form-label'>Enter Description</label>
+                    <div className="mb-3">
+                      <label
+                        htmlFor="categoryDescription"
+                        className="form-label"
+                      >
+                        Enter Description
+                      </label>
                       <textarea
-                        className='form-control'
-                        id='categoryDescription'
-                        rows='3'
+                        className="form-control"
+                        id="categoryDescription"
+                        rows="3"
                         onChange={(e) => setCategoryDescription(e.target.value)}
                         required
                       ></textarea>
                     </div>
-                    <div className='mb-3'>
-                      <label htmlFor='categoryImage' className='form-label'>Choose Image</label>
+                    <div className="mb-3">
+                      <label htmlFor="categoryImage" className="form-label">
+                        Choose Image
+                      </label>
                       <input
-                        type='file'
-                        className='form-control'
-                        id='categoryImage'
+                        type="file"
+                        className="form-control"
+                        id="categoryImage"
                         onChange={handleImage}
                         accept="image/*"
                         required
@@ -382,19 +400,25 @@ const Category = () => {
                     {previewImage && (
                       <img
                         src={previewImage}
-                        className='img-fluid rounded object-cover mt-2'
-                        alt='Preview'
+                        className="img-fluid rounded object-cover mt-2"
+                        alt="Preview"
                       />
                     )}
-                    <div className='card-footer'>
-                      <button type='submit' className='btn btn-primary'>Create Category</button>
+                    <div className="card-footer">
+                      <button
+                        type="submit"
+                        className="btn btn-primary"
+                        style={{ backgroundColor: "#024b60", color: "white" }}
+                      >
+                        Create Category
+                      </button>
                     </div>
                   </form>
                 </div>
               </div>
-              <div className='col-9 h-100'>
-                <table className='table ms-2 mt-2 h-100'>
-                  <thead className='table-dark h-100'>
+              <div className="col-9 h-100">
+                <table className="table ms-2 mt-2 h-100">
+                  <thead className="table-dark h-100">
                     <tr>
                       <th>Category Image</th>
                       <th>Category Name</th>
@@ -407,18 +431,30 @@ const Category = () => {
                       category.map((singleCategory) => (
                         <tr key={singleCategory._id}>
                           <td>
-                            <img width={"40px"} height={"40px"} src={`http://localhost:5500/category/${singleCategory.categoryImage}`} alt='' />
+                            <img
+                              width={"40px"}
+                              height={"40px"}
+                              src={`https://localhost:5500/category/${singleCategory.categoryImage}`}
+                              alt=""
+                            />
                           </td>
                           <td>{singleCategory.categoryName}</td>
                           <td>{singleCategory.categoryDescription}</td>
                           <td>
-                            <button onClick={() => handleDelete(singleCategory._id)} className='btn btn-danger ms-2'>Delete</button>
+                            <button
+                              onClick={() => handleDelete(singleCategory._id)}
+                              className="btn btn-danger ms-2"
+                            >
+                              Delete
+                            </button>
                           </td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan='4' className='text-center'>No categories found.</td>
+                        <td colSpan="4" className="text-center">
+                          No categories found.
+                        </td>
                       </tr>
                     )}
                   </tbody>

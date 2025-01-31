@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Backend API configurations
 const Api = axios.create({
-  baseURL: "http://localhost:5500",
+  baseURL: "https://localhost:5500",
   withCredentials: true,
   headers: {
     // Authorization: `Bearer ${token}`,
@@ -11,7 +11,7 @@ const Api = axios.create({
 });
 
 const Api2 = axios.create({
-  baseURL: "http://localhost:5500",
+  baseURL: "https://localhost:5500",
   withCredentials: true,
   headers: {
     // Authorization: `Bearer ${token}`,
