@@ -7,15 +7,15 @@ const CategoryCard = ({ categoryInformation, onClick }) => {
   return (
     <div
       style={{ position: "relative" }}
-      className='card category-card border-0 p-0 shadow-lg h-100 w-100 row d-flex rounded'
+      className="card category-card border-0 p-0 shadow-lg h-100 w-100 row d-flex rounded"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick} // Handle click
     >
-      <div className='col-12 h-100 p-0 m-0 rounded'>
+      <div className="col-12 h-100 p-0 m-0 rounded">
         <img
           src={`https://localhost:5500/category/${categoryInformation.categoryImage}`}
-          className='card-img-top h-100 w-100 rounded object-fit-cover'
+          className="card-img-top h-100 w-100 rounded object-fit-cover"
           alt={categoryInformation.categoryName}
         />
       </div>
@@ -24,8 +24,8 @@ const CategoryCard = ({ categoryInformation, onClick }) => {
           isHovered ? "d-block" : "d-none"
         }`}
       >
-        <h5 className='card-title'>{categoryInformation.categoryName}</h5>
-        <p className='card-text text-center'>
+        <h5 className="card-title">{categoryInformation.categoryName}</h5>
+        <p className="card-text text-center">
           {categoryInformation.categoryDescription.slice(0, 40)}...
         </p>
       </div>

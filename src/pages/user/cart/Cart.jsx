@@ -338,7 +338,8 @@ const Cart = () => {
                     </span>
                   </div>
                   <button
-                    className="btn btn-primary mt-4 w-full"
+                    className="btn mt-4 w-full"
+                    style={{ backgroundColor: "#024b60", color: "white" }}
                     onClick={handleProceedToCheckout}
                   >
                     Proceed to Checkout
@@ -371,7 +372,8 @@ const Cart = () => {
                     {address.address}
                   </option>
                 ))}
-                <option>Add New Address</option>
+                <option value="add-new">➕ Add New Address</option>{" "}
+                {/* Added value="add-new" */}
               </select>
             </div>
             <div className="payment-selection mt-4">
@@ -387,7 +389,8 @@ const Cart = () => {
               </select>
             </div>
             <button
-              className="btn btn-success mt-4 w-full"
+              className="btn mt-4 w-full"
+              style={{ backgroundColor: "#024b60", color: "white" }}
               onClick={handleConfirmOrder}
             >
               Confirm Order

@@ -3,13 +3,11 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   addToCartApi,
-  createReviewApi,
   getcaterogyById,
   getReviewsByProductID,
   getSingleProduct,
   getUserDataById,
 } from "../../../apis/Api";
-import StarRating from "../../../components/star/StarRating";
 import "./ProductDescription.css";
 
 const ProductDescription = () => {
@@ -36,79 +34,6 @@ const ProductDescription = () => {
     setQuantity((prevQuantity) =>
       prevQuantity > 1 ? prevQuantity - 1 : prevQuantity
     );
-  };
-
-  useEffect(() => {
-    const fetchProductAndReviews = async () => {
-      try {
-        const res = await getSingleProduct(id);
-        const product = res.data.product;
-        console.log(product);
-
-        setProductName(product.productName);
-        setProductPrice(product.productPrice);
-        setProductDescription(product.productDescription);
-        setOldImage(product.productImage);
-
-        const categoryRes = await getcaterogyById(product.productCategory);
-        setProductCategory(categoryRes.data.categoryName);
-        console.log(categoryRes.data.categoryName);
-
-        const reviewsRes = await getReviewsByProductID(id);
-        console.log("Review response", reviewsRes);
-
-        const reviewsWithUserNames = await Promise.all(
-          reviewsRes.data.review.map(async (review) => {
-            console.log(review);
-            const userRes = await getUserDataById(review.userID);
-            console.log(userRes.data.user.firstname);
-            return {
-              ...review,
-              userName: userRes.data.user.firstname,
-            };
-          })
-        );
-
-        setReviews(reviewsWithUserNames);
-      } catch (error) {
-        console.error(error);
-        toast.error("Failed to fetch product details or reviews.");
-      }
-    };
-
-    fetchProductAndReviews();
-  }, []);
-
-  const handleRatingChange = (newRating) => {
-    setRating(newRating);
-  };
-
-  const handleReviewSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("userID", user.id);
-    formData.append("productID", id);
-    formData.append("review", review);
-    formData.append("rating", rating);
-
-    createReviewApi(formData)
-      .then((res) => {
-        if (res.data.success) {
-          toast.success(res.data.message);
-          setReviews((prevReviews) => [
-            ...prevReviews,
-            { rating, text: review, userName: user.name },
-          ]);
-          setReview("");
-          setRating(0);
-        } else {
-          toast.error(res.data.message);
-        }
-      })
-      .catch((err) => {
-        toast.error("Server Error");
-        console.error(err.message);
-      });
   };
 
   const handleAddToCart = () => {
@@ -152,6 +77,46 @@ const ProductDescription = () => {
         console.error(err.message);
       });
   };
+  useEffect(() => {
+    const fetchProductAndReviews = async () => {
+      try {
+        const res = await getSingleProduct(id);
+        const product = res.data.product;
+        console.log(product);
+
+        setProductName(product.productName);
+        setProductPrice(product.productPrice);
+        setProductDescription(product.productDescription);
+        setOldImage(product.productImage);
+
+        const categoryRes = await getcaterogyById(product.productCategory);
+        setProductCategory(categoryRes.data.categoryName);
+        console.log(categoryRes.data.categoryName);
+
+        const reviewsRes = await getReviewsByProductID(id);
+        console.log("Review response", reviewsRes);
+
+        const reviewsWithUserNames = await Promise.all(
+          reviewsRes.data.review.map(async (review) => {
+            console.log(review);
+            const userRes = await getUserDataById(review.userID);
+            console.log(userRes.data.user.firstname);
+            return {
+              ...review,
+              userName: userRes.data.user.firstname,
+            };
+          })
+        );
+
+        setReviews(reviewsWithUserNames);
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to fetch product details or reviews.");
+      }
+    };
+
+    fetchProductAndReviews();
+  }, []);
 
   return (
     <div className="container product-description">
@@ -207,47 +172,6 @@ const ProductDescription = () => {
               Add to cart
             </button>
           </div>
-        </div>
-      </div>
-
-      <div className="reviews-section mt-4">
-        <form onSubmit={handleReviewSubmit}>
-          <div className="mb-3">
-            <label className="form-label">Your Review:</label>
-            <input
-              name="comment"
-              value={review}
-              onChange={(e) => setReview(e.target.value)}
-              className="form-control"
-            />
-            <StarRating
-              rating={rating}
-              value={rating}
-              onRatingChange={handleRatingChange}
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Submit Review
-          </button>
-        </form>
-
-        <div className="mt-4">
-          <h4>Customer Reviews</h4>
-          {reviews.length === 0 ? (
-            <p>No reviews yet.</p>
-          ) : (
-            reviews.map((review, index) => (
-              <div key={index} className="col">
-                <div className="review-item mb-3">
-                  <StarRating rating={review.rating} />
-                  <p className="review-text mt-2">
-                    <strong>{review.userName}:</strong>{" "}
-                    {review.text || review.review}
-                  </p>
-                </div>
-              </div>
-            ))
-          )}
         </div>
       </div>
     </div>

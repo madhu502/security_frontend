@@ -1,5 +1,4 @@
 import React from "react";
-import { FaSearch } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 import { kname } from "../../common/utils";
 
@@ -35,6 +34,7 @@ const Navbar = () => {
           <div className="logo-text ">
             <a>
               <span className="logo-text fs-4" style={{ color: "white" }}>
+                {" "}
                 {kname}
               </span>
             </a>
@@ -67,6 +67,7 @@ const Navbar = () => {
                   Home
                 </NavLink>
               </li>
+
               <li className="nav-item fs-6 fs-lg-5 mx-lg-3">
                 <NavLink
                   className="nav-link"
@@ -87,36 +88,19 @@ const Navbar = () => {
               </li>
 
               <li className="nav-item fs-6 fs-lg-5 mx-lg-3">
-                <NavLink
-                  className="nav-link"
-                  to="/cart"
-                  style={{ color: "white" }}
-                >
-                  <span role="img" aria-label="cart">
+                <NavLink className="nav-link" to="/cart">
+                  <span role="img" aria-label="cart" style={{ color: "white" }}>
                     Cart
                   </span>
                 </NavLink>
               </li>
             </ul>
-            <div className="search-container w-25 text-center  me-5 d-flex justify-content-center align-items-center">
-              <input
-                type="text"
-                placeholder="Search for products"
-                className="search-input form-control w-100"
-                style={{ color: "white" }}
-              />
-              <button
-                className="search-button h-100 border-0  px-3"
-                style={{ backgroundColor: "#024b60", color: "white" }}
-              >
-                <FaSearch />
-              </button>
-            </div>
+
             <form className="d-flex w-25" role="search">
               {users ? (
                 <div className="dropdown mt-3 mt-lg-auto w-100 text-center">
                   <button
-                    className="btn btn-outline-dark dropdown-toggle"
+                    className="btn  dropdown-toggle"
                     style={{ backgroundColor: "#024b60", color: "white" }}
                     type="button"
                     data-bs-toggle="dropdown"
@@ -140,7 +124,7 @@ const Navbar = () => {
                     </li>
                     <li>
                       <NavLink className="dropdown-item" to={"/orderlist"}>
-                        Order
+                        order
                       </NavLink>
                     </li>
                     <li>
@@ -159,7 +143,7 @@ const Navbar = () => {
                 <div className="auth-buttons d-flex justify-content-around align-items-sm-center w-100">
                   <Link
                     to="/register"
-                    className="btn btn-sm btn-outline-warning"
+                    className="btn btn-sm "
                     style={{ backgroundColor: "#3c869b", color: "white" }}
                     type="submit"
                   >
@@ -167,7 +151,7 @@ const Navbar = () => {
                   </Link>
                   <Link
                     to="/login"
-                    className="btn btn-sm btn-outline-warning"
+                    className="btn  btn-sm"
                     style={{ backgroundColor: "#3c869b", color: "white" }}
                     type="submit"
                   >
